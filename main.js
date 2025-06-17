@@ -121,24 +121,18 @@ function startOrbitAfterDelay(poi) {
 
 // 🚀 Fungsi: Zoom lalu orbit
 function startZoomAndOrbit(poi) {
+  if (!poi.camera_position || !poi.camera_target) return;
+
   zooming = true;
   zoomStartTime = performance.now();
   orbitTarget = poi;
 
-  // Kamera mulai dari posisi saat ini
   zoomFrom.copy(camera.position);
   zoomTargetFrom.copy(controls.target);
 
-  const radius = 1.5;
-  const initialAngle = 0;
-  zoomTo.set(
-    poi.position.x + radius * Math.cos(initialAngle),
-    poi.position.y + 0.5,
-    poi.position.z + radius * Math.sin(initialAngle)
-  );
-
-  // Target orbit juga smooth
-  zoomTargetTo.copy(poi.position);
+  // 🎯 Gunakan posisi yang sudah didefinisikan di POI
+  zoomTo.copy(poi.camera_position);
+  zoomTargetTo.copy(poi.camera_target);
 
   document.querySelectorAll('.description-box').forEach(d => d.style.display = 'none');
   document.getElementById(poi.descriptionId).style.display = 'block';
@@ -146,6 +140,7 @@ function startZoomAndOrbit(poi) {
   orbiting = false;
   startOrbitAfterDelay(poi);
 }
+
 
 // filter button
 function filterCubesByStatus(status) {
@@ -331,7 +326,7 @@ apartmentsButton.addEventListener('click', () => {
   navbarTargetFrom.copy(controls.target.clone());
 
   // 🎯 Tentukan posisi & target yang kamu mau
-  navbarTo.set(1.12, 1.31, 0.50); // posisi kamera (ubah sesuai preferensi)
+  navbarTo.set(1.05, 1.14, 0.84); // posisi kamera (ubah sesuai preferensi)
   navbarTargetTo.set(0, 0, 0); // titik yang dilihat (ubah sesuai fokus)
 
   zooming = false;
@@ -393,7 +388,7 @@ function setDefaultHomeState() {
   });
 
   // Sembunyikan semua kubus apartemen
-  // cubes.forEach(c => c.visible = false);
+  cubes.forEach(c => c.visible = false);
 
   // Reset status orbit/zoom
   orbiting = false;

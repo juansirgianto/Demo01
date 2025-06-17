@@ -2,7 +2,7 @@ import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
 export function createCubes(scene) {
   // 🔺 Cube 0
-  const cubeGeometry = new THREE.BoxGeometry(0.25, 0.15, 0.15);
+  const cubeGeometry = new THREE.BoxGeometry(0.25, 0.13, 0.15);
   const cubeMaterial = new THREE.MeshBasicMaterial({
     color: 0xff0000,
     transparent: true,
@@ -15,28 +15,28 @@ export function createCubes(scene) {
   scene.add(cube);
 
   // 🔺 Cube 1
-  const cubeGeometry1 = new THREE.BoxGeometry(0.25, 0.15, 0.15);
+  const cubeGeometry1 = new THREE.BoxGeometry(0.25, 0.13, 0.15);
   const cubeMaterial1 = new THREE.MeshBasicMaterial({
     color: 0x0000ff,
     transparent: true,
     opacity: 0.2
   });
   const cube1 = new THREE.Mesh(cubeGeometry1, cubeMaterial1);
-  cube1.position.set(-0.18, 0.05, 0.36);
+  cube1.position.set(-0.18, 0.07, 0.36);
   cube1.rotation.set(0, Math.PI / 30, 0);
   cube1.userData.status = 'available';
   scene.add(cube1);
 
   // // 🔺 Cube 2
-  const cubeGeometry2 = new THREE.BoxGeometry(0.17, 0.10, 0.20);
+  const cubeGeometry2 = new THREE.BoxGeometry(0.17, 0.10, 0.22);
   const cubeMaterial2 = new THREE.MeshBasicMaterial({
     color: 0xffff00,
     transparent: true,
     opacity: 0.2
   });
   const cube2 = new THREE.Mesh(cubeGeometry2, cubeMaterial2);
-  cube2.position.set(-0.21, 0.1, 1.1);
-  cube2.rotation.set(0, Math.PI / 0.69, 0);
+  cube2.position.set(1.15, 0, -0.57);
+  cube2.rotation.set(0, Math.PI / 0.78, 0);
   cube2.userData.status = 'booked';
   scene.add(cube2);
 
@@ -73,20 +73,26 @@ export function createCubes(scene) {
       id: 'cube0',
       mesh: cube,
       position: cube.position,
-      descriptionId: 'cubedescription'
+      descriptionId: 'cubedescription',
+      camera_position: new THREE.Vector3(0.66, 0.68, 1.01),
+      camera_target: new THREE.Vector3(0.18, 0.05, 0.15),
     },
     {
       id: 'cube1',
       mesh: cube1,
       position: cube1.position,
-      descriptionId: 'cubedescription1'
+      descriptionId: 'cubedescription1',
+      camera_position: new THREE.Vector3(-0.07, 0.68, 1.24),
+      camera_target: new THREE.Vector3(-0.18, 0.07, 0.36),
     },
-    // {
-    //   id: 'cube2',
-    //   mesh: cube2,
-    //   position: cube2.position,
-    //   descriptionId: 'cubedescription2'
-    // },
+    {
+      id: 'cube2',
+      mesh: cube2,
+      position: cube2.position,
+      descriptionId: 'cubedescription2',
+      camera_position: new THREE.Vector3(0.68, 0.68, 0.20),
+      camera_target: new THREE.Vector3(1.15, 0, -0.57),
+    },
     // {
     //   id: 'cube3',
     //   mesh: cube3,
