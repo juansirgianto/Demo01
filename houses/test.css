@@ -1,3 +1,10 @@
+:root{
+  --primary: #2e3047;
+  --primary-transparant: rgba(46, 48, 71, 0.95);
+  --secondary: #daddd8;
+  --third: #f5f4ea;
+}
+
 html, body {
       margin: 0;
       padding: 0;
@@ -69,3 +76,34 @@ html, body {
     text-anchor: middle; /* untuk center horizontal */
     pointer-events: auto;
     }
+
+    .description-box {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    background: var(--primary-transparant);
+    color: var(--third);
+    border-radius: 25px;
+    height: auto;
+    max-width: 300px;
+    z-index: 50;
+    backdrop-filter: blur(5px);
+    }
+
+    .gallery{
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    background-color: rgba(177, 181, 223, 0.1);
+    color: var(--third);
+    padding: 5px;
+    z-index: 999;
+    font-weight: 500;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .gallery:hover{
+    background-color: var(--secondary);
+    color: var(--primary);
+  }

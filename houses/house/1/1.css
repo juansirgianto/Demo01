@@ -52,7 +52,7 @@ html, body {
 
     .description-box {
     position: relative;
-    top: 60px;
+    top: 20px;
     left: 20px;
     background: var(--primary-transparant);
     color: var(--third);
@@ -69,7 +69,7 @@ html, body {
   border-radius: 30px;
   background-color: rgba(177, 181, 223, 0.1);
   color: var(--third);
-  padding: 5px;
+  padding: 10px;
   z-index: 999;
   font-weight: 500;
   width: 100%;

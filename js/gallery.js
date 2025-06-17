@@ -3,7 +3,7 @@ export const galleryMap = {
   hotel: ['./hotel1.jpg', './hotel.jpg', './apart.jpg'],
   shop: ['./apart1.jpg', './apart.jpg'],
 
-  cube0: ['./hotel1.jpg', './apart.jpg'],
+  cube0: ['./foto/1424CC_CanH_PLOT 10_REV 4 - Photo.jpg', './houses/house/1/1.jpg', './houses/house/1/2.jpg', './houses/house/1/3.jpg'],
   cube1: ['./apart.jpg', './apart1.jpg'],
   cube2: ['./apart.jpg', './apart1.jpg'],
   cube3: ['./apart1.jpg', './apart.jpg'],
