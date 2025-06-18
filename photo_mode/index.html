@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Houses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./test.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div class="fullscreen-container" id="tracking-area">
+    <!-- Gambar latar -->
+    <img src="./1424CC_CanH_AERIAL_REV 4 - Photo.jpg" alt="Background" class="bg-image" />
+
+    <div class="absolute top-[10px] left-[20px] text-white flex w-auto bg-[rgba(46,48,71,0.95)] p-[10px] rounded-[25px] items-center z-10">
+      <a href="/" class="text-sm mx-[10px] font-bold">Main</a>
+      <!-- <a href="/Luma/" class="text-sm mx-[10px] font-bold">Main</a> -->
+      <i data-lucide="arrow-right" class="size-3 stroke-[2.5]"></i>
+      <a href="" class="text-sm mx-[10px] font-bold">Photo Mode</a>
+    </div>
+
+    <svg id="map-svg">
+      <a href="/unit_a/">
+      <!-- <a href="/Luma/houses/house/1/"> -->
+    <g id="cluster-A" class="hoverable">
+      <path class="path2" d="M 719 522 L 648 489, 647 422, 710 364, 750 381, 811 440, 819 475, 820 512, 719 522"
+       stroke="none" stroke-width="1" fill="transparent" />
+       <rect x="675" y="295" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+       <text x="735" y="315" class="cluster-label">
+        Unit A
+      </text>
+       <text x="735" y="335" class="cluster-label-status">
+        Status: Sold
+      </text>
+       <text x="735" y="355" class="cluster-label-price">
+        Price: 20,000 $
+      </text>
+    </g>
+    </a>
+      <a href="/unit_b/">
+      <!-- <a href="/Luma/houses/house/1/"> -->
+    <g id="cluster-B" class="hoverable">
+      <path class="path2" d="M 578 466 L 575 400, 639 340, 693 377, 669 394, 644 420, 646 466, 578 466"
+       stroke="none" stroke-width="1" fill="transparent" />
+       <rect x="580" y="275" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+       <text x="640" y="295" class="cluster-label">
+        Unit B
+      </text>
+       <text x="640" y="315" class="cluster-label-status">
+        Status: Available
+      </text>
+       <text x="640" y="335" class="cluster-label-price">
+        Price: 20,000 $
+      </text>
+    </g>
+    </a>
+      <a href="/unit_c/">
+      <!-- <a href="/Luma/houses/house/1/"> -->
+    <g id="cluster-C" class="hoverable">
+      <path class="path2" d="M 1403 809 L 1228 764, 1232 648, 1225 646, 1275 614, 1275 564, 1287 559, 1310 564, 1308 594, 1440 533, 1525 623, 1517 630, 1510 728, 1403 809"
+       stroke="none" stroke-width="1" fill="transparent" />
+       <rect x="1317" y="485" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+       <text x="1377" y="505" class="cluster-label">
+        Unit C
+      </text>
+      <text x="1377" y="525" class="cluster-label-status">
+        Status: Booked
+      </text>
+       <text x="1377" y="545" class="cluster-label-price">
+        Price: 20,000 $
+      </text>
+    </g>
+    </a>
+      <a href="/unit_d/">
+      <!-- <a href="/Luma/houses/house/1/"> -->
+    <g id="cluster-B" class="hoverable">
+      <path class="path2" d="M 927 607 L 1022 580, 1022 568, 1093 549, 1092 501, 1095 500, 1069 459, 1008 419, 938 407, 918 420, 920 401, 906 398, 896 400, 896 436, 880 449, 865 472, 870 475
+      , 873 510, 851 536, 851 589, 920 607"
+       stroke="none" stroke-width="1" fill="transparent" />
+       <rect x="910" y="340" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+       <text x="970" y="360" class="cluster-label">
+        Unit D
+      </text>
+      <text x="970" y="380" class="cluster-label-status">
+        Status: Available
+      </text>
+       <text x="970" y="400" class="cluster-label-price">
+        Price: 20,000 $
+      </text>
+    </g>
+    </a>
+    <!-- <g id="cluster-A" class="hoverable">
+      <path class="path2" d="M 1359 727 C 1359 727, 1365 734, 1386 742 C 1386 742, 1455 752, 1536 744 C 1536 744, 1565 668 ,1536 606" stroke="red" stroke-width="1" fill="transparent" />
+    </g> -->
+    </svg>
+
+    <!-- Crosshair dan info koordinat -->
+    <!-- <div id="cursorInfo" class="cursor-info">X: 0, Y: 0</div>
+    <div id="xLine" class="axis-line"></div>
+    <div id="yLine" class="axis-line"></div> -->
+
+  </div>
+
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+  <script type="module" src="./js/test.js"></script>
+</body>
+</html>

@@ -34,7 +34,7 @@ body {
   background-color: #0056b3;
 }
 
-.camera-stats {
+/* .camera-stats {
   position: absolute;
   bottom: 10px;
   right: 10px; 
@@ -47,7 +47,7 @@ body {
   z-index: 999;
   white-space: pre-line;
   text-align: right; 
-}
+} */
 
 .poi-html-button {
   position: absolute;

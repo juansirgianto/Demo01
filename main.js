@@ -17,7 +17,7 @@ const hiddenStatuses = new Set();
 scene.background = new THREE.Color(0xf5f5f5); 
 // scene.background = new THREE.Color(0xffffff); 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(1.01, 1.25, 0.88);
+camera.position.set(1.11, 1.20, 0.72);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -56,7 +56,7 @@ scene.add(splats);
 // scene.add(wall);
 // ;
 
-splats.semanticsMask = LumaSplatsSemantics.FOREGROUND;
+// splats.semanticsMask = LumaSplatsSemantics.FOREGROUND;
 
 // 🌍 State untuk zoom dan orbit
 let orbitFrom = new THREE.Vector3(); // posisi awal orbit
@@ -176,15 +176,15 @@ function filterCubesByStatus(status) {
 }
 
 document.getElementById('filterAvailable').addEventListener('click', (e) => {
-  toggleFilter('available', e.target);
+  toggleFilter('Available', e.target);
 });
 
 document.getElementById('filterSold').addEventListener('click', (e) => {
-  toggleFilter('sold', e.target);
+  toggleFilter('Sold', e.target);
 });
 
 document.getElementById('filterBooked').addEventListener('click', (e) => {
-  toggleFilter('booked', e.target);
+  toggleFilter('Booked', e.target);
 });
 
 function toggleFilter(status, button) {
@@ -225,8 +225,8 @@ Camera Rotation:
 }
 
 // axis helper
-const axesHelper = new THREE.AxesHelper( 5 );
-scene.add( axesHelper );
+// const axesHelper = new THREE.AxesHelper( 5 );
+// scene.add( axesHelper );
 
 // navbar active
 const navbarButtons = document.querySelectorAll('#navbar button');
