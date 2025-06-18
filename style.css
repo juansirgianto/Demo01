@@ -80,9 +80,9 @@ body {
 
 .description-box {
   position: absolute;
-  top: 10px;
+  top: 70px;
   right: 20px;
-  background: var(--primary);
+  background: var(--primary-transparant);
   color: white;
   border-radius: 25px;
   height: auto;
@@ -222,7 +222,7 @@ body {
 .filter {
   position: absolute;
   top: 10px;
-  left: 20px;
+  right: 20px;
   background: var(--primary);
   color: white;
   border-radius: 30px;
