@@ -11,7 +11,9 @@ export function createCubes(scene) {
   const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
   cube.position.set(0.18, 0.05, 0.15);
   cube.rotation.set(0, Math.PI / 5.9, 0);
-  cube.userData.status = 'sold';
+  cube.userData.name = 'Unit A';
+  cube.userData.status = 'Sold';
+  cube.userData.price = '20,000 $';
   scene.add(cube);
 
   // 🔺 Cube 1
@@ -24,7 +26,9 @@ export function createCubes(scene) {
   const cube1 = new THREE.Mesh(cubeGeometry1, cubeMaterial1);
   cube1.position.set(-0.18, 0.07, 0.36);
   cube1.rotation.set(0, Math.PI / 30, 0);
-  cube1.userData.status = 'available';
+  cube1.userData.name = 'Unit B';
+  cube1.userData.status = 'Available';
+  cube1.userData.price = '20,000 $';
   scene.add(cube1);
 
   // // 🔺 Cube 2
@@ -37,7 +41,9 @@ export function createCubes(scene) {
   const cube2 = new THREE.Mesh(cubeGeometry2, cubeMaterial2);
   cube2.position.set(1.15, 0, -0.57);
   cube2.rotation.set(0, Math.PI / 0.78, 0);
-  cube2.userData.status = 'booked';
+  cube2.userData.name = 'Unit C';
+  cube2.userData.status = 'Booked';
+  cube2.userData.price = '20,000 $';
   scene.add(cube2);
 
   // // 🔺 Cube 3

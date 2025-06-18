@@ -1,6 +1,6 @@
 import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 import { OrbitControls } from 'https://esm.run/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-import { LumaSplatsThree } from './libs/luma-web.module.js';
+import { LumaSplatsThree, LumaSplatsSemantics } from './libs/luma-web.module.js';
 import { POIs } from './js/pois.js';
 import { createCubes } from './js/cubes.js';
 import { setupGallery } from './js/gallery.js';
@@ -14,13 +14,14 @@ renderer.setPixelRatio(window.devicePixelRatio, 2);
 const scene = new THREE.Scene();
 const { cubes, cubePOIs } = createCubes(scene);
 const hiddenStatuses = new Set(); 
-// scene.background = new THREE.Color(0x000000); // hitam
+scene.background = new THREE.Color(0xf5f5f5); 
+// scene.background = new THREE.Color(0xffffff); 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.set(1.01, 1.25, 0.88);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-// controls.minDistance = 0.9;  // misalnya: jangan terlalu dekat
+controls.minDistance = 0.9;  // misalnya: jangan terlalu dekat
 controls.maxDistance = 1.8;  // misalnya: jangan terlalu jauh
 const initialCameraPosition = camera.position.clone();
 const initialControlsTarget = controls.target.clone();
@@ -34,7 +35,28 @@ const splats = new LumaSplatsThree({
 });
 scene.add(splats);
 
-// splats.semanticsMask = LumaSplatsSemantics.FOREGROUND;
+// background wall
+// const radius = 4;
+// const height = 3;
+// const segments = 1000;
+
+// const geometry = new THREE.CylinderGeometry(radius, radius, height, segments, 1, true);
+// const material = new THREE.MeshBasicMaterial({
+//   color: 0xf5f5f5,
+//   side: THREE.BackSide,
+//   transparent: true,
+//   opacity: 1.0
+// });
+// const wall = new THREE.Mesh(geometry, material);
+
+// // Sesuaikan dengan posisi model Luma kamu (misal controls.target)
+// const modelPosition = controls.target; // misalnya model di tengah
+
+// wall.position.set(modelPosition.x, modelPosition.y + height / 2, modelPosition.z);
+// scene.add(wall);
+// ;
+
+splats.semanticsMask = LumaSplatsSemantics.FOREGROUND;
 
 // 🌍 State untuk zoom dan orbit
 let orbitFrom = new THREE.Vector3(); // posisi awal orbit
@@ -259,7 +281,11 @@ canvas.addEventListener('mousemove', (event) => {
     // ✅ Tampilkan tooltip
     tooltip.style.left = event.clientX + 10 + 'px';
     tooltip.style.top = event.clientY + 10 + 'px';
-    tooltip.innerText = cube.userData.status || 'Info tidak tersedia';
+    tooltip.innerHTML = `
+    <div><strong>${cube.userData.name}</strong></div>
+    <div >Status: ${cube.userData.status}</div>
+    <div class="tooltip-line">Price: ${cube.userData.price}</div>
+  `;
     tooltip.style.display = 'block';
 
     canvas.style.cursor = 'pointer';
@@ -529,7 +555,10 @@ function animate() {
 
     if (t >= 1) orbitStartTime = now; // loop terus
   }
-}
+  const maxY = 2.0;
+  const minY = 0.4;
+  camera.position.y = Math.min(maxY, Math.max(minY, camera.position.y));
+  }
 animate();
 
 canvas.addEventListener('click', onCanvasClick);

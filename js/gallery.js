@@ -3,9 +3,9 @@ export const galleryMap = {
   hotel: ['./hotel1.jpg', './hotel.jpg', './apart.jpg'],
   shop: ['./apart1.jpg', './apart.jpg'],
 
-  cube0: ['./foto/1424CC_CanH_PLOT 10_REV 4 - Photo.jpg', './houses/house/1/1.jpg', './houses/house/1/2.jpg', './houses/house/1/3.jpg'],
-  cube1: ['./apart.jpg', './apart1.jpg'],
-  cube2: ['./apart.jpg', './apart1.jpg'],
+  cube0: ['./foto/1424CC_CanH_PLOT 10_REV 4 - Photo.jpg', './unit_a/1/1.jpg', './unit_a/1/2.jpg', './unit_a/1/3.jpg'],
+  cube1: ['./foto/1424CC_CanH_PLOT 9_REV 4 - Photo.jpg', './unit_b/1/1.jpg', './unit_b/1/2.jpg', './unit_b/1/3.jpg'],
+  cube2: ['./foto/1424CC_CanH_PLOT 15_REV 4 - Photo.jpg', './unit_c/1/1.jpg', './unit_c/1/2.jpg', './unit_c/1/3.jpg'],
   cube3: ['./apart1.jpg', './apart.jpg'],
 };
 

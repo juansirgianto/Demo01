@@ -288,14 +288,20 @@ body {
 
 .tooltip{
   position: absolute;
-  background: rgba(0,0,0,0.7);
+  background: var(--primary);
   color: white;
   padding: 6px 10px;
   border-radius: 4px;
   font-size: 12px;
+  font-weight: 600;
   pointer-events: none;
   display: none;
   z-index: 9999;
+}
+
+.tooltip-line{
+  color: #00CC00;
+  font-weight: 500;
 }
 
 @media screen and (min-width: 390px) and (max-width: 964px) {
