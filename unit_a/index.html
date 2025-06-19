@@ -10,9 +10,6 @@
 </head>
 <body>
   <div class="fullscreen-container" id="tracking-area">
-    <!-- Gambar latar -->
-    <img src="../foto/1424CC_CanH_PLOT 10_REV 4 - Photo.jpg" alt="Background" class="bg-image" />
-
     <div class="absolute top-[10px] left-[20px] text-white flex w-auto bg-[rgba(46,48,71,0.95)] p-[10px] rounded-[25px] items-center z-10">
       <a href="/" class="text-sm mx-[10px] font-bold">Main</a>
       <!-- <a href="/Luma/" class="text-sm mx-[10px] font-bold">Main</a> -->
@@ -28,28 +25,25 @@
       </a>
     </div>
 
-    <svg id="map-svg">
+    <svg id="map-svg"
+     viewBox="0 0 2000 1250"
+     preserveAspectRatio="xMidYMid meet"
+     width="100%" height="100%">
+     <image href="../foto/1424CC_CanH_PLOT 10_REV 4 - Photo.jpg"
+         x="0" y="-50" width="2000" height="1250" />
       <a href="/unit_a/1/">
-      <!-- <a href="/Luma/houses/house/1/"> -->
-    <g id="cluster-A" class="hoverable">
-      <path class="path2" d="M 420 684 L 421 386, 393 380, 465 301, 510 276, 508 225, 502 204, 546 195, 546 181, 559 184, 559 195, 602 213, 602 222, 729 147, 1232 49, 1271 248, 1325 244,
-       1345 368, 1345 382, 1330 383, 1330 456, 1434 550, 1411 556, 1411 684, 1320 725, 420 684"
-       stroke="none" stroke-width="1" fill="transparent" />
-       <!-- <rect x="905" y="208" width="90" height="30" fill="rgba(0,0,0,0.5)" rx="6" ry="6" />
-       <text x="950" y="230" class="cluster-label">
-        House 1
-      </text> -->
-    </g>
-    </a>
-    <!-- <g id="cluster-A" class="hoverable">
-      <path class="path2" d="M 1359 727 C 1359 727, 1365 734, 1386 742 C 1386 742, 1455 752, 1536 744 C 1536 744, 1565 668 ,1536 606" stroke="red" stroke-width="1" fill="transparent" />
-    </g> -->
+        <g id="cluster-A" class="hoverable">
+          <path d="M 434 801 L 437 482, 409 483, 475 408, 467 403, 482 400, 529 371, 530 316, 522 295, 568 285, 568 273, 582 273, 581 285, 627 305, 626 312, 760 234, 1282 132, 1323 340,
+           1379 335, 1401 465, 1401 481, 1386 482, 1386 557, 1493 656, 1484 663, 1471 661, 1473 785, 1374 837, 434 801"
+             stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
+        </g>
+      </a>
     </svg>
 
     <!-- Crosshair dan info koordinat -->
-    <!-- <div id="cursorInfo" class="cursor-info">X: 0, Y: 0</div>
+    <div id="cursorInfo" class="cursor-info">X: 0, Y: 0</div>
     <div id="xLine" class="axis-line"></div>
-    <div id="yLine" class="axis-line"></div> -->
+    <div id="yLine" class="axis-line"></div>
 
     <div id="homedescription" class="description-box">
       <div class="flex justify-between">
