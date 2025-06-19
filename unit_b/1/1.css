@@ -89,3 +89,30 @@ html, body {
 #thumbnailScroll::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .description-box {
+    top: 20px;
+    left: 20px;
+    color: var(--third);
+    border-radius: 25px;
+    max-width: 300px;
+    z-index: 50;
+    backdrop-filter: blur(5px);
+  }
+  .price{
+    font-size: large;
+  }
+  .breadcrumb a{
+    font-size: small;
+  }
+  .gallery{
+    font-size: small;
+  }
+  .logo img{
+    position: absolute;
+    max-width: 150px;
+    right: 10px;
+    top: 5px;
+  }
+  }

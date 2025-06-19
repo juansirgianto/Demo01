@@ -10,30 +10,34 @@
 </head>
 <body>
   <div class="fullscreen-container" id="tracking-area">
-    <!-- Gambar latar -->
-    <img src="../foto/1424CC_CanH_PLOT 11_REV 4 - Photo.jpg" alt="Background" class="bg-image" />
 
-    <div class="absolute top-[10px] left-[20px] text-white flex w-auto bg-[rgba(46,48,71,0.95)] p-[10px] rounded-[25px] items-center z-10">
-      <a href="/" class="text-sm mx-[10px] font-bold">Main</a>
+    <div class="breadcrumb absolute top-[10px] left-[20px] text-white flex w-auto bg-[rgba(46,48,71,0.95)] p-[10px] rounded-[25px] items-center z-10">
+      <a href="/Demo01/" class="text-sm mx-[10px] font-bold">Main</a>
       <!-- <a href="/Luma/" class="text-sm mx-[10px] font-bold">Main</a> -->
       <i data-lucide="arrow-right" class="size-3 stroke-[2.5]"></i>
-      <a href="/photo_mode/" class="text-sm mx-[10px] font-bold">Photo Mode</a>
+      <a href="/Demo01/photo_mode/" class="text-sm mx-[10px] font-bold">Photo Mode</a>
       <i data-lucide="arrow-right" class="size-3 stroke-[2.5]"></i>
       <a href="" class="text-sm mx-[10px] font-bold">Unit D</a>
     </div>
 
     <div class="absolute top-[5px] right-[10px] w-[200px]">
-      <a href="/">
+      <a href="/Demo01/">
       <img src="../CC Logo - Interior main.png" alt="" >
       </a>
     </div>
 
-    <svg id="map-svg">
-      <a href="/unit_d/1/">
+    <svg id="map-svg"
+     viewBox="0 0 2000 1250"
+     preserveAspectRatio="xMidYMid slice"
+     width="100%" height="100%">
+     <image id="bgImage" href="../foto/1424CC_CanH_PLOT 11_REV 4 - Photo.jpg"
+         width="2000" height="1250" />
+      <a href="/Demo01/unit_d/1/">
       <!-- <a href="/Luma/houses/house/1/"> -->
     <g id="cluster-A" class="hoverable">
-      <path class="path2" d="M 421 782 L 282 761, 282 139, 273 123, 294 92, 322 100, 321 84, 333 86, 335 102, 382 115, 380 128, 374 142, 381 153, 374 161, 373 281, 379 279, 386 280, 525 171
-      , 848 246, 1006 353, 1038 345, 1062 301, 1130 316, 1351 251, 1568 392, 1547 397, 1616 534, 1591 536, 1592 798, 1278 829, 842 774, 421 782"
+      <path id="clusterPath" class="path2" d="M 436 842 L 288 816, 294 496, 283 495, 294 441, 294 402, 286 398, 294 389, 294 190, 288 180, 293 172, 293 158, 286 150,
+      285 137, 306 108, 333 114, 333 101, 347 102, 347 118, 397 131, 397 142, 391 155, 391 304, 402 304, 548 191, 884 269, 1048 380, 1081 371, 1105 327, 1176 342, 1407 273,
+      1634 420, 1605 425, 1686 567, 1657 570, 1657 833, 1331 877, 878 816, 436 842"
        stroke="none" stroke-width="1" fill="transparent" />
        <!-- <rect x="905" y="208" width="90" height="30" fill="rgba(0,0,0,0.5)" rx="6" ry="6" />
        <text x="950" y="230" class="cluster-label">
@@ -44,9 +48,9 @@
     </svg>
 
     <!-- Crosshair dan info koordinat -->
-    <!-- <div id="cursorInfo" class="cursor-info">X: 0, Y: 0</div>
+    <div id="cursorInfo" class="cursor-info">X: 0, Y: 0</div>
     <div id="xLine" class="axis-line"></div>
-    <div id="yLine" class="axis-line"></div> -->
+    <div id="yLine" class="axis-line"></div>
 
     <div id="homedescription" class="description-box">
       <div class="flex justify-between">
@@ -57,11 +61,11 @@
         <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis, repudiandae. Porro officiis magnam incidunt illo amet quo vitae quasi quisquam nihil excepturi velit quos, reprehenderit dolorum id sunt dolorem. Aliquam!</span>
       </div>
       <div class="mx-[15px] text-2xl font-bold mb-[12px] flex justify-between">
-        <span class="text-blue-500">Available</span>
-        <span class="text-green-500">200,000 $</span>
+        <span class="price text-blue-500">Available</span>
+        <span class="price text-green-500">200,000 $</span>
       </div>
       <div class="flex justify-between">
-        <a href="/unit_d/1/" class="w-full flex">
+        <a href="/Demo01/unit_d/1/" class="w-full flex">
         <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center">
           <i data-lucide="eye" class="size-5 my-auto"></i>
           <span>Details</span>

@@ -87,3 +87,22 @@ svg {
       width: 1px;
       height: 100%;
     }
+
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .description-box {
+    /* position: absolute; */
+    top: 60px;
+    left: 20px;
+    color: var(--third);
+    border-radius: 25px;
+    max-width: 200px;
+    z-index: 50;
+    backdrop-filter: blur(5px);
+  }
+  .price{
+    font-size: large;
+  }
+  .breadcrumb a{
+    font-size: small;
+  }
+  }

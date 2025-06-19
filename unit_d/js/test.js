@@ -33,3 +33,43 @@ container.addEventListener("mousemove", (e) => {
     lastCopied = copyText;
   }
 });
+
+// Bg Responsive
+function adjustImagePosition() {
+  const img = document.getElementById("bgImage");
+  const width = window.innerWidth;
+
+  if (width <= 768) {
+    // Mobile
+    img.setAttribute("x", "-500");
+    img.setAttribute("y", "-100");
+  } else if (width <= 1024) {
+    // Tablet
+    img.setAttribute("x", "-400");
+    img.setAttribute("y", "-100");
+  } else {
+    // Desktop
+    img.setAttribute("x", "0");
+    img.setAttribute("y", "-120");
+  }
+}
+
+// Path Responsive
+function adjustPathPosition() {
+  const path = document.getElementById("clusterPath");
+  const width = window.innerWidth;
+
+  if (width <= 768) {
+    path.setAttribute("transform", "translate(-500, -50)");
+  } else if (width <= 1024) {
+    path.setAttribute("transform", "translate(-400, 20)");
+  } else {
+    path.setAttribute("transform", "translate(0, 0)");
+  }
+}
+
+window.addEventListener("resize", adjustPathPosition);
+window.addEventListener("DOMContentLoaded", adjustPathPosition);
+
+window.addEventListener("resize", adjustImagePosition);
+window.addEventListener("DOMContentLoaded", adjustImagePosition);
