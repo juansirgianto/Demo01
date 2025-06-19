@@ -30,7 +30,7 @@ const initialControlsTarget = controls.target.clone();
 const splats = new LumaSplatsThree({
   // source: 'https://lumalabs.ai/capture/32b1ffdf-44cf-42bc-ba15-09f3b0a9a7e8',
   source: 'https://lumalabs.ai/capture/bbd30904-2a73-4cad-98e5-63da5a1c275b', //warna
-  // source: 'https://lumalabs.ai/capture/6b85bf15-1866-4d19-883b-ac34b0c36060',
+  // source: 'https://limewire.com/d/K81Ks#da13LF9c0x',
   particleRevealEnabled: true
 });
 scene.add(splats);

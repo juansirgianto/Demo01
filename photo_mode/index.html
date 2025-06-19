@@ -10,8 +10,6 @@
 </head>
 <body>
   <div class="fullscreen-container" id="tracking-area">
-    <!-- Gambar latar -->
-    <img src="./1424CC_CanH_AERIAL_REV 4 - Photo.jpg" alt="Background" class="bg-image" />
 
     <div class="absolute top-[10px] left-[20px] text-white flex w-auto bg-[rgba(46,48,71,0.95)] p-[10px] rounded-[25px] items-center z-10">
       <a href="/" class="text-sm mx-[10px] font-bold">Main</a>
@@ -26,54 +24,57 @@
       </a>
     </div>
 
-    <svg id="map-svg">
+    <svg id="map-svg"
+     viewBox="0 0 2000 1250"
+     preserveAspectRatio="xMidYMid slice"
+     width="100%" height="100%">
+     <image id="bgImage" href="./1424CC_CanH_AERIAL_REV 4 - Photo.jpg"
+         width="2000" height="1250" />
       <a href="/unit_a/">
-      <!-- <a href="/Luma/houses/house/1/"> -->
-    <g id="cluster-A" class="hoverable">
-      <path class="path2" d="M 719 522 L 648 489, 647 422, 710 364, 750 381, 811 440, 819 475, 820 512, 719 522"
-       stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
-       <rect x="675" y="295" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
-       <text x="735" y="315" class="cluster-label">
-        Unit A
-      </text>
-       <text x="735" y="335" class="cluster-label-status">
-        Status: Sold
-      </text>
-       <text x="735" y="355" class="cluster-label-price">
-        Price: 200,000 $
-      </text>
-    </g>
-    </a>
+        <g id="cluster-A" class="hoverable">
+          <path id="clusterPath" d="M 749 628 L 676 593, 676 525,671 522,686 503,740 463, 782 480,844 537, 838 541, 853 578, 852 613, 749 628"
+             stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
+          <rect id="label-rectA" x="695" y="395" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+          <text id="label-unitA" x="755" y="415" class="cluster-label">
+            Unit A
+          </text>
+          <text id="label-statusA" x="755" y="435" class="cluster-label-status">
+            Status: Sold
+          </text>
+          <text id="label-priceA" x="755" y="455" class="cluster-label-price">
+            Price: 200,000 $
+          </text>
+        </g>
+      </a>
       <a href="/unit_b/">
-      <!-- <a href="/Luma/houses/house/1/"> -->
     <g id="cluster-B" class="hoverable">
-      <path class="path2" d="M 578 466 L 575 400, 639 340, 693 377, 669 394, 644 420, 646 466, 578 466"
+      <path id="clusterPath2" class="path2" d="M 603 562 L 599 504, 595 502, 665 436, 723 476, 686 501, 672 521, 676 528, 676 564, 603 562"
        stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
-       <rect x="580" y="275" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
-       <text x="640" y="295" class="cluster-label">
+       <rect id="label-rectB" x="600" y="375" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+       <text id="label-unitB" x="660" y="395" class="cluster-label">
         Unit B
       </text>
-       <text x="640" y="315" class="cluster-label-status">
+       <text id="label-statusB" x="660" y="415" class="cluster-label-status">
         Status: Available
       </text>
-       <text x="640" y="335" class="cluster-label-price">
+       <text id="label-priceB" x="660" y="435" class="cluster-label-price">
         Price: 200,000 $
       </text>
     </g>
     </a>
       <a href="/unit_c/">
-      <!-- <a href="/Luma/houses/house/1/"> -->
     <g id="cluster-C" class="hoverable">
-      <path class="path2" d="M 1403 809 L 1228 764, 1232 648, 1225 646, 1275 614, 1275 564, 1287 559, 1310 564, 1308 594, 1440 533, 1525 623, 1517 630, 1510 728, 1403 809"
+      <path id="clusterPath3" class="path2" d="M 1460 925 L 1280 876, 1284 757, 1277 754, 1326 722, 1327 669, 1341 664, 1366 669, 1363 699, 1375 692, 1501 637, 1588 730, 
+      1580 738, 1573 840, 1460 925"
        stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
-       <rect x="1317" y="485" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
-       <text x="1377" y="505" class="cluster-label">
+       <rect id="label-rectC" x="1347" y="585" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+       <text id="label-unitC" x="1407" y="605" class="cluster-label">
         Unit C
       </text>
-      <text x="1377" y="525" class="cluster-label-status">
+      <text id="label-statusC" x="1407" y="625" class="cluster-label-status">
         Status: Booked
       </text>
-       <text x="1377" y="545" class="cluster-label-price">
+       <text id="label-priceC" x="1407" y="645" class="cluster-label-price">
         Price: 200,000 $
       </text>
     </g>
@@ -81,17 +82,17 @@
       <a href="/unit_d/">
       <!-- <a href="/Luma/houses/house/1/"> -->
     <g id="cluster-B" class="hoverable">
-      <path class="path2" d="M 927 607 L 1022 580, 1022 568, 1093 549, 1092 501, 1095 500, 1069 459, 1008 419, 938 407, 918 420, 920 401, 906 398, 896 400, 896 436, 880 449, 865 472, 870 475
-      , 873 510, 851 536, 851 589, 920 607"
+      <path id="clusterPath4" class="path2" d="M 968 716 L 883 690, 883 650, 908 614, 907 577, 901 574, 914 552, 977 507, 1048 517, 1112 561, 1141 601, 1135 605, 1134 655, 
+      1065 675, 1065 687, 968 716"
        stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
-       <rect x="910" y="340" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
-       <text x="970" y="360" class="cluster-label">
+       <rect id="label-rectD" x="950" y="440" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+       <text id="label-unitD" x="1010" y="460" class="cluster-label">
         Unit D
       </text>
-      <text x="970" y="380" class="cluster-label-status">
+      <text id="label-statusD" x="1010" y="480" class="cluster-label-status">
         Status: Available
       </text>
-       <text x="970" y="400" class="cluster-label-price">
+       <text id="label-priceD" x="1010" y="500" class="cluster-label-price">
         Price: 200,000 $
       </text>
     </g>
@@ -102,9 +103,9 @@
     </svg>
 
     <!-- Crosshair dan info koordinat -->
-    <!-- <div id="cursorInfo" class="cursor-info">X: 0, Y: 0</div>
+    <div id="cursorInfo" class="cursor-info">X: 0, Y: 0</div>
     <div id="xLine" class="axis-line"></div>
-    <div id="yLine" class="axis-line"></div> -->
+    <div id="yLine" class="axis-line"></div>
 
   </div>
 
