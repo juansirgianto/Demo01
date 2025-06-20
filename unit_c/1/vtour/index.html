@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Marker PSV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./vtour.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin/index.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #viewer {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Viewer -->
+<div id="viewer"></div>
+
+<!-- Marker Custom Element -->
+<custom-marker id="custom-marker-element">
+  <!-- <img src="./360.jpg" alt="Preview" width="100px"> -->
+  <h2 >Study Room</h2>
+  <!-- <p>Klik untuk masuk ke ruang tamu!</p> -->
+</custom-marker>
+<custom-marker id="custom-marker-element2">
+  <!-- <img src="./360.jpg" alt="Preview" width="100px"> -->
+  <h2 >Kitchen</h2>
+  <!-- <p>Klik untuk masuk ke ruang tamu!</p> -->
+</custom-marker>
+
+<script type="module" src="./vtour.js"></script>
+
+</body>
+</html>
