@@ -50,6 +50,9 @@ button {
 .tooltip-kitchen {
   left: calc(50% - 35px);
 }
+.tooltip-bedroom {
+  left: calc(50% - 36px);
+}
   
 .tooltip.bottom {
   bottom: auto;
@@ -115,6 +118,8 @@ button:hover + .tooltip {
       tooltip.classList.add('tooltip-kitchen');
     } else if (markerId === 'custom-marker-element') {
       tooltip.classList.add('tooltip-study');
+    } else if (markerId === 'custom-marker-element3') {
+      tooltip.classList.add('tooltip-bedroom');
     }
 
     tooltip.innerHTML = '<slot></slot>';
@@ -170,6 +175,13 @@ const viewer = new Viewer({
           anchor: 'bottom center',
           zIndex: 10,
         },
+        {
+          id: 'go-bedroom',
+          element: document.getElementById('custom-marker-element3'),
+          position: { yaw: -0.1, pitch: 0.4 },
+          anchor: 'bottom center',
+          zIndex: 10,
+        },
       ],
     }],
   ],
@@ -181,4 +193,7 @@ document.getElementById('custom-marker-element').addEventListener('marker-click'
 });
 document.getElementById('custom-marker-element2').addEventListener('marker-click', () => {
   window.location.href = './kitchen/'; // ganti dengan path yang kamu mau
+});
+document.getElementById('custom-marker-element3').addEventListener('marker-click', () => {
+  window.location.href = './bedroom/'; // ganti dengan path yang kamu mau
 });
