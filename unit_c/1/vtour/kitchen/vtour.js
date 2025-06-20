@@ -26,7 +26,7 @@ button {
   color: white;
   border-radius: 50%;
   cursor: pointer;
-  filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 10px 5px #2e3047);
 }
 
 .tooltip {
@@ -35,7 +35,7 @@ button {
   left: calc(50% - 40px);
   position: absolute;
   bottom: calc(100% + 10px);
-  background: rgba(30, 30, 30, 0.8);
+  background: #2e3047;
   color: white;
   text-shadow: 0 1px #000;
   border-radius: 10px;
@@ -70,7 +70,7 @@ button {
 .tooltip::after {
   content: '';
   border: 10px solid transparent;
-  border-top-color: rgba(30,30,30,0.8);
+  border-top-color: #2e3047;
   position: absolute;
   top: 100%;
   left: 50%;
@@ -78,7 +78,7 @@ button {
 }
 .tooltip.bottom::after {
   border-top-color: transparent;
-  border-bottom-color: rgba(30,30,30,0.8);
+  border-bottom-color: #2e3047;
   top: auto;
   bottom: 100%;
 }
