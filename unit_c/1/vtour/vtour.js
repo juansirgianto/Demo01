@@ -125,13 +125,10 @@ button:hover + .tooltip {
     tooltip.innerHTML = '<slot></slot>';
     dom.appendChild(tooltip);
 
-    button.addEventListener('click', () => {
-      this.dispatchEvent(new CustomEvent('marker-click', {
-        bubbles: true,
-        composed: true,
-        detail: { id: this.getAttribute('id') },
-      }));
-    });
+    button.addEventListener('click', this.handleClick.bind(this));
+    button.addEventListener('touchstart', this.handleClick.bind(this), { passive: true });
+
+
 
     button.addEventListener('mouseleave', () => {
       tooltip.classList.add('hiding');
@@ -142,6 +139,14 @@ button:hover + .tooltip {
     });
   }
 
+    handleClick() {
+    this.dispatchEvent(new CustomEvent('marker-click', {
+      bubbles: true,
+      composed: true,
+      detail: { id: this.getAttribute('id') },
+    }));
+  }
+
   updateMarker({ position, viewerSize }) {
     const tooltip = this.shadowRoot.querySelector('.tooltip');
     if (tooltip) {
@@ -149,6 +154,7 @@ button:hover + .tooltip {
     }
   }
 }
+
 
 // 🧩 Register custom element
 customElements.define('custom-marker', CustomMarkerElement);
@@ -188,12 +194,16 @@ const viewer = new Viewer({
 });
 
 // 🧭 Marker Click = Pindah ke halaman lain
-document.getElementById('custom-marker-element').addEventListener('marker-click', () => {
-  window.location.href = './study_room/'; // ganti dengan path yang kamu mau
-});
-document.getElementById('custom-marker-element2').addEventListener('marker-click', () => {
-  window.location.href = './kitchen/'; // ganti dengan path yang kamu mau
-});
-document.getElementById('custom-marker-element3').addEventListener('marker-click', () => {
-  window.location.href = './bedroom/'; // ganti dengan path yang kamu mau
+// Dengarkan semua marker-click yang dilepas oleh custom-marker mana pun
+document.addEventListener('marker-click', (e) => {
+  const markerId = e.detail.id;
+
+  // Cek dan arahkan berdasarkan ID marker
+  if (markerId === 'custom-marker-element') {
+    window.location.href = './study_room/';
+  } else if (markerId === 'custom-marker-element2') {
+    window.location.href = './kitchen/';
+  } else if (markerId === 'custom-marker-element3') {
+    window.location.href = './bedroom/';
+  }
 });

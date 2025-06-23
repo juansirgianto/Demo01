@@ -121,13 +121,8 @@ button:hover + .tooltip {
     tooltip.innerHTML = '<slot></slot>';
     dom.appendChild(tooltip);
 
-    button.addEventListener('click', () => {
-      this.dispatchEvent(new CustomEvent('marker-click', {
-        bubbles: true,
-        composed: true,
-        detail: { id: this.getAttribute('id') },
-      }));
-    });
+    button.addEventListener('click', this.handleClick.bind(this));
+    button.addEventListener('touchstart', this.handleClick.bind(this), { passive: true });
 
     button.addEventListener('mouseleave', () => {
       tooltip.classList.add('hiding');
@@ -136,6 +131,14 @@ button:hover + .tooltip {
     dom.addEventListener('animationend', () => {
       tooltip.classList.remove('hiding');
     });
+  }
+
+    handleClick() {
+    this.dispatchEvent(new CustomEvent('marker-click', {
+      bubbles: true,
+      composed: true,
+      detail: { id: this.getAttribute('id') },
+    }));
   }
 
   updateMarker({ position, viewerSize }) {
