@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VR Panorama</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #000; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three/build/three.module.js';
+    import { OrbitControls } from '../../../libs/OrbitControls.js';
+    import { VRButton } from 'https://unpkg.com/three@0.160.0/examples/jsm/webxr/VRButton.js';
+
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.xr.enabled = true;
+    document.body.appendChild(renderer.domElement);
+    document.body.appendChild(VRButton.createButton(renderer));
+
+    // Panorama sphere
+    const geometry = new THREE.SphereGeometry(500, 60, 40);
+    geometry.scale(-1, 1, 1); // agar kita ada di dalam bola
+
+    const texture = new THREE.TextureLoader().load('./ENTRANCE_.jpg');
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    // Opsional: OrbitControls untuk preview sebelum masuk VR
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    const markerGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+const markerMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+marker.position.set(0, 1.5, -2); // depan kamera
+marker.name = 'go-kitchen';
+scene.add(marker);
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2(); // tidak dipakai di VR, tapi untuk fallback
+
+const controller = renderer.xr.getController(0);
+scene.add(controller);
+
+    controller.addEventListener('selectstart', () => {
+    const intersections = raycaster.intersectObjects(scene.children);
+    if (intersections.length > 0) {
+        const target = intersections[0].object;
+        if (target.name === 'go-kitchen') {
+        window.location.href = './kitchen/';
+        }
+    }
+    });
+
+    function animate() {
+      renderer.setAnimationLoop(() => {
+        controls.update();
+        renderer.render(scene, camera);
+        raycaster.setFromCamera({ x: 0, y: 0 }, camera); // atau pakai posisi controller
+      });
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

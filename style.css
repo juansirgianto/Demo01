@@ -318,6 +318,7 @@ body {
   position: absolute;
   top: 70px;
   left: 50vw;
+  width: 300px;
   transform: translateX(-50%);
   background: var(--primary);
   color: white;

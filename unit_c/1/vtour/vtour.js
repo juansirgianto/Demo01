@@ -207,3 +207,7 @@ document.addEventListener('marker-click', (e) => {
     window.location.href = './bedroom/';
   }
 });
+
+document.getElementById('vrButton').addEventListener('click', () => {
+    window.open('./vr.html', '_blank'); // ✅ buka tab baru
+  });

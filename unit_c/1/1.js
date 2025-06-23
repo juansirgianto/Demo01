@@ -57,6 +57,7 @@ const scrollContainer = document.getElementById("thumbnailScroll");
   const galleryBtn = document.getElementById('gallery');
   const floorPlanBtn = document.getElementById('floorPlan');
   const carousel = document.getElementById('carouselContainer');
+  const thumbnail = document.getElementById('thumbnailScroll');
   const floorplan = document.getElementById('floorplanImage');
   const floorplanlvl = document.getElementById('floorPlanlvl');
 
@@ -80,6 +81,7 @@ const scrollContainer = document.getElementById("thumbnailScroll");
 
   floorPlanBtn.addEventListener('click', () => {
     carousel.classList.add('hidden');
+    thumbnail.classList.add('hidden');
     floorplan.classList.remove('hidden');
     floorplanlvl.classList.remove('hidden');
     setActiveButton('floorplan');
@@ -97,8 +99,8 @@ const floor2Btn = document.getElementById('floor2');
 
 // Gambar floorplan sesuai lantai
 const floorplanImages = {
-  1: './1707CC_REY_UNIT A3_REV5.jpg',  // default image
-  2: './1937_CC_REY_UNIT A2_REV 1.jpg'          // ganti ini sesuai file kamu
+  1: './1707CC_REY_UNIT A3_REV5.png',  // default image
+  2: './1937_CC_REY_UNIT A2_REV 1.png'          // ganti ini sesuai file kamu
 };
 
 // Event saat tombol 1 ditekan
