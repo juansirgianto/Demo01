@@ -39,55 +39,67 @@
     };
 
     const panoramas = {
-      entrance: {
-        texture: './ENTRANCE_.jpg',
-        markers: [sharedMarker]
-      },
-      lounge: {
-        texture: './lounge.jpg',
-        markers: [sharedMarker]
-      },
-      kitchen: {
-        texture: './kitchen.jpg',
-        markers: [
-          { name: 'back-entrance', position: [0, 1.5, -3], target: 'entrance' }
-        ]
-      }
-    };
+  entrance: {
+    texture: './ENTRANCE_.jpg',
+    markers: [
+      { name: 'Kitchen', position: [0, 0, -1], target: 'kitchen' },
+    ],
+  },
+  kitchen: {
+    texture: './kitchen.jpg',
+    markers: [
+      { name: 'Back', position: [0, 0, -1], target: 'entrance' },
+    ],
+  },
+};
+
 
     let currentSphere = null;
     let currentMarkers = [];
 
-    function createMarkerFromSVG(name, position, target) {
-      const svg = `
-<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128'>
-  <circle cx='64' cy='64' r='40' fill='#f00' stroke='#fff' stroke-width='8'/>
-</svg>`;
+    function createMarkerFromSVG({ name, position, target }) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
 
-      const canvas = document.createElement('canvas');
-      canvas.width = 128;
-      canvas.height = 128;
-      const ctx = canvas.getContext('2d');
+  // SVG marker dengan background gelap dan teks putih
+  const svg = `
+    <svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'>
+      <circle cx='128' cy='128' r='100' fill='#2e3047'/>
+      <circle cx='128' cy='128' r='60' fill='white'/>
+      <text x='50%' y='55%' text-anchor='middle' fill='#2e3047' font-size='32' font-family='Arial'>${name}</text>
+    </svg>
+  `;
 
-      const img = new Image();
-      const texture = new THREE.CanvasTexture(canvas);
-      const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
-      const sprite = new THREE.Sprite(material);
-      sprite.scale.set(1.2, 1.2, 1);
-      sprite.userData.target = target;
+  const img = new Image();
+  const texture = new THREE.CanvasTexture(canvas);
+  const spriteMaterial = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    depthTest: false
+  });
 
-      const dir = new THREE.Vector3(...position).normalize().multiplyScalar(495);
-      sprite.position.copy(dir);
+  const sprite = new THREE.Sprite(spriteMaterial);
+  sprite.scale.set(6, 6, 1); // Sesuaikan ukuran agar terlihat di VR
+  sprite.visible = false; // sembunyikan sebelum gambar selesai dimuat
+  sprite.userData.target = target;
 
-      img.onload = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
-        texture.needsUpdate = true;
-      };
+  img.onload = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+    texture.needsUpdate = true;
+    sprite.visible = true;
+  };
+  img.src = 'data:image/svg+xml;base64,' + btoa(svg);
 
-      img.src = 'data:image/svg+xml;base64,' + btoa(svg);
-      return sprite;
-    }
+  // Penempatan marker di permukaan dalam sphere
+  const dir = new THREE.Vector3(...position).normalize().multiplyScalar(495);
+  sprite.position.copy(dir);
+
+  return sprite;
+}
+
 
     function loadPanorama(name) {
       const data = panoramas[name];
@@ -104,11 +116,12 @@
       currentSphere = new THREE.Mesh(geometry, material);
       scene.add(currentSphere);
 
-      data.markers.forEach(({ name, position, target }) => {
-        const marker = createMarkerFromSVG(name, position, target);
-        scene.add(marker);
-        currentMarkers.push(marker);
-      });
+      data.markers.forEach(markerData => {
+  const marker = createMarkerFromSVG(markerData);
+  scene.add(marker);
+  currentMarkers.push(marker);
+});
+
     }
 
     const raycaster = new THREE.Raycaster();
