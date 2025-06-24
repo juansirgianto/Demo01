@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>VR Tour - Three.js WebXR</title>
+  <title>VR Tour - Meta Quest</title>
   <style>
     body { margin: 0; overflow: hidden; background: #000; }
     canvas { display: block; }
@@ -10,11 +10,14 @@
 </head>
 <body>
   <script type="module">
-    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three/build/three.module.js';
     import { VRButton } from 'https://unpkg.com/three@0.160.0/examples/jsm/webxr/VRButton.js';
     import { XRControllerModelFactory } from './xrcontroller.js';
+    import { OrbitControls } from '../../../libs/OrbitControls.js';
 
     const scene = new THREE.Scene();
+    scene.add(new THREE.AxesHelper(1)); // Debug helper
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 1.6, 0);
 
@@ -24,19 +27,24 @@
     document.body.appendChild(renderer.domElement);
     document.body.appendChild(VRButton.createButton(renderer));
 
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 1.5));
+    const light = new THREE.HemisphereLight(0xffffff, 0x444444);
+    light.position.set(0, 1, 0);
+    scene.add(light);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
 
     const panoramas = {
       entrance: {
         texture: './ENTRANCE_.jpg',
         markers: [
-          { label: 'Go to Kitchen', position: [0, 0, -1], target: 'kitchen' }
+          { name: 'to-kitchen', position: [0, 0, -1], target: 'kitchen' }
         ]
       },
       kitchen: {
         texture: './kitchen.jpg',
         markers: [
-          { label: 'Back to Entrance', position: [0, 0, -1], target: 'entrance' }
+          { name: 'to-entrance', position: [0, 0, -1], target: 'entrance' }
         ]
       }
     };
@@ -44,28 +52,48 @@
     let currentSphere = null;
     let currentMarkers = [];
 
-    function createMarker({ label, position, target }) {
+    function buildLaserPointer() {
+  const geometry = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, -1)
+  ]);
+  const material = new THREE.LineBasicMaterial({ color: 0xffffff });
+  const line = new THREE.Line(geometry, material);
+  line.name = 'laserPointer';
+  line.scale.z = 5;
+  return line;
+}
+
+
+    function createMarker({ name, position, target }) {
+      const group = new THREE.Group();
+
+      // SVG-like marker as canvas texture
       const canvas = document.createElement('canvas');
       canvas.width = 256;
-      canvas.height = 128;
+      canvas.height = 256;
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#2e3047';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'red';
+      ctx.beginPath();
+      ctx.arc(128, 128, 64, 0, Math.PI * 2);
+      ctx.fill();
+
       ctx.fillStyle = 'white';
-      ctx.font = '24px sans-serif';
+      ctx.font = 'bold 28px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(label, 128, 80);
+      ctx.fillText(name, 128, 140);
 
       const texture = new THREE.CanvasTexture(canvas);
       const material = new THREE.SpriteMaterial({ map: texture });
       const sprite = new THREE.Sprite(material);
-      sprite.scale.set(10, 5, 1);
-      sprite.userData.target = target;
+      sprite.scale.set(10, 10, 1);
 
       const dir = new THREE.Vector3(...position).normalize().multiplyScalar(495);
-      sprite.position.copy(dir);
+      group.position.copy(dir);
+      group.userData.target = target;
+      group.add(sprite);
 
-      return sprite;
+      return group;
     }
 
     function loadPanorama(name) {
@@ -76,7 +104,7 @@
       currentMarkers.forEach(m => scene.remove(m));
       currentMarkers = [];
 
-      const geometry = new THREE.SphereGeometry(500, 64, 32);
+      const geometry = new THREE.SphereGeometry(500, 60, 40);
       geometry.scale(-1, 1, 1);
       const texture = new THREE.TextureLoader().load(data.texture);
       const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -91,42 +119,34 @@
     }
 
     const raycaster = new THREE.Raycaster();
-    const tempMatrix = new THREE.Matrix4();
 
-    const controller = renderer.xr.getController(0);
-    const controllerModelFactory = new XRControllerModelFactory();
-    const controllerGrip = renderer.xr.getControllerGrip(0);
-    controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
-    scene.add(controllerGrip);
-
-    // Laser pointer
-    const laser = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(0, 0, 0),
-        new THREE.Vector3(0, 0, -1)
-      ]),
-      new THREE.LineBasicMaterial({ color: 0xffffff })
-    );
-    laser.name = 'laser';
-    laser.scale.z = 5;
-    controller.add(laser);
-    scene.add(controller);
-
-    controller.addEventListener('selectstart', () => {
+    function checkIntersections(controller) {
+      const tempMatrix = new THREE.Matrix4();
       tempMatrix.identity().extractRotation(controller.matrixWorld);
       raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
       raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 
-      const intersects = raycaster.intersectObjects(currentMarkers);
+      const intersects = raycaster.intersectObjects(currentMarkers, true);
       if (intersects.length > 0) {
-        const target = intersects[0].object.userData.target;
+        const target = intersects[0].object.parent.userData.target;
         if (target) loadPanorama(target);
       }
-    });
+    }
+
+    const controller = renderer.xr.getController(0);
+    controller.add(buildLaserPointer());
+    scene.add(controller);
+    controller.addEventListener('selectstart', () => checkIntersections(controller));
+
+    const controllerGrip = renderer.xr.getControllerGrip(0);
+    const controllerModelFactory = new XRControllerModelFactory();
+    controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
+    scene.add(controllerGrip);
 
     loadPanorama('entrance');
 
     renderer.setAnimationLoop(() => {
+      controls.update();
       renderer.render(scene, camera);
     });
 
@@ -138,4 +158,3 @@
   </script>
 </body>
 </html>
-
