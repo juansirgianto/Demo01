@@ -16,6 +16,8 @@
     import { OrbitControls } from '../../../libs/OrbitControls.js';
 
     const scene = new THREE.Scene();
+    scene.add(new THREE.AxesHelper(1)); // Debug helper
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 1.6, 0);
 
@@ -25,7 +27,8 @@
     document.body.appendChild(renderer.domElement);
     document.body.appendChild(VRButton.createButton(renderer));
 
-    const light = new THREE.HemisphereLight(0xffffff, 0x222222, 1.5);
+    const light = new THREE.HemisphereLight(0xffffff, 0x444444);
+    light.position.set(0, 1, 0);
     scene.add(light);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -35,13 +38,13 @@
       entrance: {
         texture: './ENTRANCE_.jpg',
         markers: [
-          { name: 'to-kitchen', position: [0, 0, -1], target: 'kitchen' },
+          { name: 'to-kitchen', position: [0, 0, -1], target: 'kitchen' }
         ]
       },
       kitchen: {
         texture: './kitchen.jpg',
         markers: [
-          { name: 'back-entrance', position: [0, 0, -1], target: 'entrance' },
+          { name: 'to-entrance', position: [0, 0, -1], target: 'entrance' }
         ]
       }
     };
@@ -52,39 +55,30 @@
     function createMarker({ name, position, target }) {
       const group = new THREE.Group();
 
-      const ringGeo = new THREE.RingGeometry(0.2, 0.4, 32);
-      const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-      const ring = new THREE.Mesh(ringGeo, ringMat);
-      ring.rotation.x = -Math.PI / 2;
-      group.add(ring);
-
-      const centerGeo = new THREE.CircleGeometry(0.2, 32);
-      const centerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      const center = new THREE.Mesh(centerGeo, centerMat);
-      center.rotation.x = -Math.PI / 2;
-      group.add(center);
-
+      // SVG-like marker as canvas texture
       const canvas = document.createElement('canvas');
       canvas.width = 256;
-      canvas.height = 64;
+      canvas.height = 256;
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#2e3047';
-      ctx.fillRect(0, 0, 256, 64);
+      ctx.fillStyle = 'red';
+      ctx.beginPath();
+      ctx.arc(128, 128, 64, 0, Math.PI * 2);
+      ctx.fill();
+
       ctx.fillStyle = 'white';
-      ctx.font = '24px sans-serif';
-      ctx.fillText(name, 10, 40);
+      ctx.font = 'bold 28px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(name, 128, 140);
 
       const texture = new THREE.CanvasTexture(canvas);
-      const spriteMat = new THREE.SpriteMaterial({ map: texture, depthTest: false });
-      const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(1.5, 0.4, 1);
-      sprite.position.set(0, 0.7, 0);
-      group.add(sprite);
-
-      group.userData.target = target;
+      const material = new THREE.SpriteMaterial({ map: texture });
+      const sprite = new THREE.Sprite(material);
+      sprite.scale.set(10, 10, 1);
 
       const dir = new THREE.Vector3(...position).normalize().multiplyScalar(495);
       group.position.copy(dir);
+      group.userData.target = target;
+      group.add(sprite);
 
       return group;
     }
@@ -128,23 +122,12 @@
 
     const controller = renderer.xr.getController(0);
     scene.add(controller);
-    controller.addEventListener('selectstart', () => {
-      checkIntersections(controller);
-    });
+    controller.addEventListener('selectstart', () => checkIntersections(controller));
 
     const controllerGrip = renderer.xr.getControllerGrip(0);
     const controllerModelFactory = new XRControllerModelFactory();
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
     scene.add(controllerGrip);
-
-    const lineGeometry = new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(0, 0, -1)
-    ]);
-    const line = new THREE.Line(lineGeometry, new THREE.LineBasicMaterial({ color: 0xffffff }));
-    line.name = 'ray';
-    line.scale.z = 5;
-    controller.add(line);
 
     loadPanorama('entrance');
 
