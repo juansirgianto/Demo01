@@ -13,6 +13,7 @@
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three/build/three.module.js';
     import { OrbitControls } from '../../../libs/OrbitControls.js';
     import { VRButton } from 'https://unpkg.com/three@0.160.0/examples/jsm/webxr/VRButton.js';
+    import { XRControllerModelFactory } from 'https://unpkg.com/three@0.160.0/examples/jsm/webxr/XRControllerModelFactory.js';
 
     const scene = new THREE.Scene();
 
@@ -20,6 +21,28 @@
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
+
+const controller1 = renderer.xr.getController(0);
+scene.add(controller1);
+
+const controllerModelFactory = new XRControllerModelFactory();
+const controllerGrip1 = renderer.xr.getControllerGrip(0);
+controllerGrip1.add(controllerModelFactory.createControllerModel(controllerGrip1));
+scene.add(controllerGrip1);
+
+// 🔴 Laser pointer (ray line)
+const rayGeometry = new THREE.BufferGeometry().setFromPoints([
+  new THREE.Vector3(0, 0, 0),
+  new THREE.Vector3(0, 0, -1)
+]);
+const rayMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+
+const line = new THREE.Line(rayGeometry, rayMaterial);
+line.name = 'line';
+line.scale.set(1, 1, 10);
+controller1.add(line);
+
+
     document.body.appendChild(renderer.domElement);
     document.body.appendChild(VRButton.createButton(renderer));
 
@@ -64,7 +87,8 @@ scene.add(controller);
       renderer.setAnimationLoop(() => {
         controls.update();
         renderer.render(scene, camera);
-        raycaster.setFromCamera({ x: 0, y: 0 }, camera); // atau pakai posisi controller
+        raycaster.ray.origin.setFromMatrixPosition(controller1.matrixWorld);
+        raycaster.ray.direction.set(0, 0, -1).applyMatrix4(controller1.matrixWorld).sub(raycaster.ray.origin).normalize();
       });
     }
 
