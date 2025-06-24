@@ -34,7 +34,7 @@
 
     const sharedMarker = {
       name: 'to-kitchen',
-      position: [0, 0, -1], // arah depan
+      position: [0, 0, -1],
       target: 'kitchen'
     };
 
@@ -58,49 +58,36 @@
     let currentSphere = null;
     let currentMarkers = [];
 
-    function createMarker({ name, position, target }) {
-  const group = new THREE.Group();
+    function createMarkerFromSVG(name, position, target) {
+      const svg = `
+<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128'>
+  <circle cx='64' cy='64' r='40' fill='#f00' stroke='#fff' stroke-width='8'/>
+</svg>`;
 
-  // Ikon: lingkaran dalam & luar
-  const ringGeo = new THREE.RingGeometry(0.2, 0.4, 32);
-  const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.rotation.x = -Math.PI / 2;
-  group.add(ring);
+      const canvas = document.createElement('canvas');
+      canvas.width = 128;
+      canvas.height = 128;
+      const ctx = canvas.getContext('2d');
 
-  // Lingkaran tengah (isi)
-  const centerGeo = new THREE.CircleGeometry(0.2, 32);
-  const centerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  const center = new THREE.Mesh(centerGeo, centerMat);
-  center.rotation.x = -Math.PI / 2;
-  group.add(center);
+      const img = new Image();
+      const texture = new THREE.CanvasTexture(canvas);
+      const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+      const sprite = new THREE.Sprite(material);
+      sprite.scale.set(1.2, 1.2, 1);
+      sprite.userData.target = target;
 
-  // Tooltip: pakai canvas → sprite
-  const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 64;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#2e3047';
-  ctx.fillRect(0, 0, 256, 64);
-  ctx.fillStyle = 'white';
-  ctx.font = '24px sans-serif';
-  ctx.fillText(name, 10, 40);
+      const dir = new THREE.Vector3(...position).normalize().multiplyScalar(495);
+      sprite.position.copy(dir);
 
-  const texture = new THREE.CanvasTexture(canvas);
-  const spriteMat = new THREE.SpriteMaterial({ map: texture, depthTest: false });
-  const sprite = new THREE.Sprite(spriteMat);
-  sprite.scale.set(1.5, 0.4, 1);
-  sprite.position.set(0, 0.7, 0);
-  group.add(sprite);
+      img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        texture.needsUpdate = true;
+      };
 
-  group.userData.target = target;
-
-  const dir = new THREE.Vector3(...position).normalize().multiplyScalar(495);
-  group.position.copy(dir);
-  return group;
-}
-
-
+      img.src = 'data:image/svg+xml;base64,' + btoa(svg);
+      return sprite;
+    }
 
     function loadPanorama(name) {
       const data = panoramas[name];
@@ -117,8 +104,8 @@
       currentSphere = new THREE.Mesh(geometry, material);
       scene.add(currentSphere);
 
-      data.markers.forEach(markerData => {
-        const marker = createMarker(markerData);
+      data.markers.forEach(({ name, position, target }) => {
+        const marker = createMarkerFromSVG(name, position, target);
         scene.add(marker);
         currentMarkers.push(marker);
       });
@@ -134,7 +121,7 @@
 
       const intersects = raycaster.intersectObjects(currentMarkers);
       if (intersects.length > 0) {
-        const target = intersects[0].object.parent.userData.target;
+        const target = intersects[0].object.userData.target;
         if (target) loadPanorama(target);
       }
     }
