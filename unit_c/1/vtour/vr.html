@@ -34,7 +34,7 @@
 
     const sharedMarker = {
       name: 'to-kitchen',
-      position: [0, 1.5, -3],
+      position: [0, 0, -1], // arah depan
       target: 'kitchen'
     };
 
@@ -59,14 +59,48 @@
     let currentMarkers = [];
 
     function createMarker({ name, position, target }) {
-      const geo = new THREE.SphereGeometry(5, 32, 32);
-      const mat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-      const marker = new THREE.Mesh(geo, mat);
-      marker.name = name;
-      marker.userData.target = target;
-      marker.position.set(...position);
-      return marker;
-    }
+  const group = new THREE.Group();
+
+  // Ikon: lingkaran dalam & luar
+  const ringGeo = new THREE.RingGeometry(0.2, 0.4, 32);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = -Math.PI / 2;
+  group.add(ring);
+
+  // Lingkaran tengah (isi)
+  const centerGeo = new THREE.CircleGeometry(0.2, 32);
+  const centerMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  const center = new THREE.Mesh(centerGeo, centerMat);
+  center.rotation.x = -Math.PI / 2;
+  group.add(center);
+
+  // Tooltip: pakai canvas → sprite
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#2e3047';
+  ctx.fillRect(0, 0, 256, 64);
+  ctx.fillStyle = 'white';
+  ctx.font = '24px sans-serif';
+  ctx.fillText(name, 10, 40);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  const spriteMat = new THREE.SpriteMaterial({ map: texture, depthTest: false });
+  const sprite = new THREE.Sprite(spriteMat);
+  sprite.scale.set(1.5, 0.4, 1);
+  sprite.position.set(0, 0.7, 0);
+  group.add(sprite);
+
+  group.userData.target = target;
+
+  const dir = new THREE.Vector3(...position).normalize().multiplyScalar(495);
+  group.position.copy(dir);
+  return group;
+}
+
+
 
     function loadPanorama(name) {
       const data = panoramas[name];
@@ -100,7 +134,7 @@
 
       const intersects = raycaster.intersectObjects(currentMarkers);
       if (intersects.length > 0) {
-        const target = intersects[0].object.userData.target;
+        const target = intersects[0].object.parent.userData.target;
         if (target) loadPanorama(target);
       }
     }
