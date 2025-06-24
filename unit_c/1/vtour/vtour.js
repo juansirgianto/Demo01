@@ -1,11 +1,10 @@
 import { Viewer } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
 
-// 🎯 Custom Marker Element with Animated Tooltip
+// 🧩 Register custom element (jika belum)
 class CustomMarkerElement extends HTMLElement {
   constructor() {
     super();
-
     const dom = this.attachShadow({ mode: 'open' });
 
     const style = document.createElement('style');
@@ -16,11 +15,9 @@ class CustomMarkerElement extends HTMLElement {
   width: 50px;
   height: 50px;
 }
-
 button {
   width: 100%;
   height: 100%;
-  padding: 0;
   border: none;
   background: none;
   color: white;
@@ -28,76 +25,34 @@ button {
   cursor: pointer;
   filter: drop-shadow(0 10px 5px #2e3047);
 }
-
 .tooltip {
-  box-sizing: border-box;
-  width: auto;
-  left: calc(50% - 50px);
   position: absolute;
   bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
   background: #2e3047;
   color: white;
-  text-shadow: 0 1px #000;
-  border-radius: 10px;
-  transform-origin: 50% calc(100% + 35px);
-  transform: rotate(30deg);
-  opacity: 0;
-  padding: 5px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
   font-weight: 500;
-  white-space: nowrap; /* ✅ Hindari break ke bawah */
+  opacity: 0;
+  transition: opacity 0.3s;
 }
-
-.tooltip-kitchen {
-  left: calc(50% - 35px);
-}
-.tooltip-bedroom {
-  left: calc(50% - 36px);
-}
-  
-.tooltip.bottom {
-  bottom: auto;
-  top: calc(100% + 10px);
-  transform-origin: 50% -35px;
-}
-
-.tooltip.hovered {
-  animation: show 300ms ease forwards;
-}
-.tooltip.hiding {
-  animation: hide 200ms ease forwards;
-}
-
 .tooltip::after {
   content: '';
-  border: 10px solid transparent;
-  border-top-color: #2e3047;
   position: absolute;
   top: 100%;
   left: 50%;
-  margin-left: -10px;
+  margin-left: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #2e3047 transparent transparent transparent;
 }
-.tooltip.bottom::after {
-  border-top-color: transparent;
-  border-bottom-color: #2e3047;
-  top: auto;
-  bottom: 100%;
-}
-
 button:hover + .tooltip {
-  animation: show 300ms ease forwards;
   opacity: 1;
 }
-
-@keyframes show {
-  0% { transform: rotate(30deg); opacity: 0; }
-  70% { transform: rotate(-10deg); }
-  100% { transform: rotate(0deg); opacity: 1; }
-}
-@keyframes hide {
-  0% { transform: rotate(0deg); opacity: 1; }
-  100% { transform: rotate(30deg); opacity: 0; }
-}
-    `;
+`;
     dom.appendChild(style);
 
     const button = document.createElement('button');
@@ -111,103 +66,231 @@ button:hover + .tooltip {
 
     const tooltip = document.createElement('div');
     tooltip.classList.add('tooltip');
-
-    // Tambahkan class khusus jika id berbeda
-    const markerId = this.getAttribute('id');
-    if (markerId === 'custom-marker-element2') {
-      tooltip.classList.add('tooltip-kitchen');
-    } else if (markerId === 'custom-marker-element') {
-      tooltip.classList.add('tooltip-study');
-    } else if (markerId === 'custom-marker-element3') {
-      tooltip.classList.add('tooltip-bedroom');
-    }
-
     tooltip.innerHTML = '<slot></slot>';
     dom.appendChild(tooltip);
 
     button.addEventListener('click', this.handleClick.bind(this));
     button.addEventListener('touchstart', this.handleClick.bind(this), { passive: true });
-
-
-
-    button.addEventListener('mouseleave', () => {
-      tooltip.classList.add('hiding');
-    });
-
-    dom.addEventListener('animationend', () => {
-      tooltip.classList.remove('hiding');
-    });
   }
 
-    handleClick() {
+  handleClick() {
     this.dispatchEvent(new CustomEvent('marker-click', {
       bubbles: true,
       composed: true,
       detail: { id: this.getAttribute('id') },
     }));
   }
-
-  updateMarker({ position, viewerSize }) {
-    const tooltip = this.shadowRoot.querySelector('.tooltip');
-    if (tooltip) {
-      tooltip.classList.toggle('bottom', position.y < viewerSize.height / 3);
-    }
-  }
 }
 
-
-// 🧩 Register custom element
 customElements.define('custom-marker', CustomMarkerElement);
 
-// 🎥 Create Viewer
+// 🎥 Inisialisasi viewer
 const viewer = new Viewer({
   container: document.getElementById('viewer'),
   panorama: './ENTRANCE_.jpg',
   defaultZoomLvl: 0,
   plugins: [
-    [MarkersPlugin, {
-      markers: [
-        {
-          id: 'go-study-room',
-          element: document.getElementById('custom-marker-element'),
-          position: { yaw: 1.3, pitch: -0.2 },
-          anchor: 'bottom center',
-          zIndex: 10,
-        },
-        {
-          id: 'go-kitchen',
-          element: document.getElementById('custom-marker-element2'),
-          position: { yaw: 0.2, pitch: -0.1 },
-          anchor: 'bottom center',
-          zIndex: 10,
-        },
-        {
-          id: 'go-bedroom',
-          element: document.getElementById('custom-marker-element3'),
-          position: { yaw: -0.1, pitch: 0.4 },
-          anchor: 'bottom center',
-          zIndex: 10,
-        },
-      ],
-    }],
+    [MarkersPlugin]
   ],
 });
 
-// 🧭 Marker Click = Pindah ke halaman lain
-// Dengarkan semua marker-click yang dilepas oleh custom-marker mana pun
-document.addEventListener('marker-click', (e) => {
-  const markerId = e.detail.id;
+const markers = viewer.getPlugin(MarkersPlugin);
 
-  // Cek dan arahkan berdasarkan ID marker
-  if (markerId === 'custom-marker-element') {
-    window.location.href = './study_room/';
-  } else if (markerId === 'custom-marker-element2') {
-    window.location.href = './kitchen/';
-  } else if (markerId === 'custom-marker-element3') {
-    window.location.href = './bedroom/';
+// 🔄 Semua marker HTML diambil dari DOM
+const markerElements = {
+  'study-marker': document.getElementById('custom-marker-element'),
+  'kitchen-marker': document.getElementById('custom-marker-element2'),
+  'bedroom-marker': document.getElementById('custom-marker-element3'),
+  'entrance': document.getElementById('custom-marker-element4'),
+  'kitchen-patio': document.getElementById('custom-marker-element5'),
+  'lounge-marker': document.getElementById('custom-marker-element6'),
+  'patio-marker': document.getElementById('custom-marker-element7'),
+  'balcony-marker': document.getElementById('custom-marker-element8'),
+  'bathroom-marker': document.getElementById('custom-marker-element9'),
+};
+
+// 🧭 Daftar scene
+const scenes = {
+  entrance: {
+    panorama: './ENTRANCE_.jpg',
+    markers: [
+      {
+        id: 'to-study',
+        element: markerElements['study-marker'],
+        position: { yaw: 1.3, pitch: -0.2 },
+      },
+      {
+        id: 'to-kitchen',
+        element: markerElements['kitchen-marker'],
+        position: { yaw: 0.2, pitch: -0.1 },
+      },
+      {
+        id: 'to-bedroom',
+        element: markerElements['bedroom-marker'],
+        position: { yaw: -0.1, pitch: 0.4 },
+      },
+    ],
+  },
+  studyroom: {
+    panorama: './study.jpg',
+    markers: [
+      {
+        id: 'back-to-entrance',
+        element: markerElements['entrance'],
+        position: { yaw: -1.5, pitch: -0.2 },
+      },
+    ],
+  },
+  kitchen: {
+    panorama: './kitchen.jpg',
+    markers: [
+      {
+        id: 'back-to-entrance',
+        element: markerElements['entrance'],
+        position: { yaw: -3.5, pitch: -0.2 },
+      },
+      {
+        id: 'to-kitchen-patio',
+        element: markerElements['kitchen-patio'],
+        position: { yaw: -0.3, pitch: -0.1 },
+      },
+      {
+        id: 'to-lounge',
+        element: markerElements['lounge-marker'],
+        position: { yaw: -1.75, pitch: -0.1 },
+      },
+    ],
+  },
+  kitchenpatio: {
+    panorama: './kitchenpatio.jpg',
+    markers: [
+      {
+        id: 'back-to-entrance',
+        element: markerElements['entrance'],
+        position: { yaw: 2.6, pitch: -0.08 },
+      },
+      {
+        id: 'to-patio',
+        element: markerElements['patio-marker'],
+        position: { yaw: 0.2, pitch: -0.1 },
+      },
+      {
+        id: 'to-lounge',
+        element: markerElements['lounge-marker'],
+        position: { yaw: 3.2, pitch: -0.1 },
+      },
+    ],
+  },
+  patio: {
+    panorama: './patio.jpg',
+    markers: [
+      {
+        id: 'to-kitchen-patio',
+        element: markerElements['kitchen-patio'],
+        position: { yaw: 2, pitch: -0.2 },
+      },
+    ],
+  },
+  lounge: {
+    panorama: './lounge.jpg',
+    markers: [
+      {
+        id: 'to-kitchen',
+        element: markerElements['kitchen-marker'],
+        position: { yaw: 1.3, pitch: -0.2 },
+      },
+    ],
+  },
+  bedroom: {
+    panorama: './bedroom.jpg',
+    markers: [
+      {
+        id: 'back-to-entrance',
+        element: markerElements['entrance'],
+        position: { yaw: -3.3, pitch: -0.3 },
+      },
+      {
+        id: 'to-balcony',
+        element: markerElements['balcony-marker'],
+        position: { yaw: -0.2, pitch: -0.2 },
+      },
+      {
+        id: 'to-bathroom',
+        element: markerElements['bathroom-marker'],
+        position: { yaw: -2.3, pitch: -0.2 },
+      },
+    ],
+  },
+  balcony: {
+    panorama: './balcony.jpg',
+    markers: [
+      {
+        id: 'to-bedroom',
+        element: markerElements['bedroom-marker'],
+        position: { yaw: -0.65, pitch: -0.2 },
+      },
+    ],
+  },
+  bathroom: {
+    panorama: './bathroom.jpg',
+    markers: [
+      {
+        id: 'to-bedroom',
+        element: markerElements['bedroom-marker'],
+        position: { yaw: 2.8, pitch: -0.2 },
+      },
+    ],
+  },
+};
+
+// 🌐 Fungsi untuk pindah scene
+function switchScene(sceneName) {
+  const scene = scenes[sceneName];
+  if (!scene) return;
+  markers.clearMarkers();
+
+  viewer.setPanorama(scene.panorama).then(() => {
+    scene.markers.forEach(marker => {
+      markers.addMarker({
+        id: marker.id,
+        element: marker.element,
+        position: marker.position,
+        anchor: 'bottom center',
+        zIndex: 10,
+      });
+    });
+  });
+}
+
+// 🔁 Marker click handler
+document.addEventListener('marker-click', (e) => {
+  const id = e.detail.id;
+
+  if (id === 'custom-marker-element') {
+    switchScene('studyroom');
+  } else if (id === 'custom-marker-element2') {
+    switchScene('kitchen');
+  } else if (id === 'custom-marker-element3') {
+    switchScene('bedroom');
+  } else if (id === 'custom-marker-element4') {
+    switchScene('entrance');
+  } else if (id === 'custom-marker-element5') {
+    switchScene('kitchenpatio');
+  } else if (id === 'custom-marker-element6') {
+    switchScene('lounge');
+  } else if (id === 'custom-marker-element7') {
+    switchScene('patio');
+  } else if (id === 'custom-marker-element8') {
+    switchScene('balcony');
+  } else if (id === 'custom-marker-element9') {
+    switchScene('bathroom');
   }
 });
 
+// 🚀 Load scene pertama
+switchScene('entrance');
+
+// 🎮 Tombol VR
 document.getElementById('vrButton').addEventListener('click', () => {
-    window.open('./vr.html', '_blank'); // ✅ buka tab baru
-  });
+  window.open('./vr.html', '_blank');
+});

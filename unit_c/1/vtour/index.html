@@ -9,10 +9,17 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin/index.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    #viewer {
-      width: 100vw;
-      height: 100vh;
-    }
+    html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  #viewer {
+    width: 100vw;
+    height: 100vh;
+  }
   </style>
 </head>
 <body>
@@ -28,19 +35,31 @@
 
 <!-- Marker Custom Element -->
 <custom-marker id="custom-marker-element">
-  <!-- <img src="./360.jpg" alt="Preview" width="100px"> -->
   <h2 >Study Room</h2>
-  <!-- <p>Klik untuk masuk ke ruang tamu!</p> -->
 </custom-marker>
 <custom-marker id="custom-marker-element2">
-  <!-- <img src="./360.jpg" alt="Preview" width="100px"> -->
   <h2 >Kitchen</h2>
-  <!-- <p>Klik untuk masuk ke ruang tamu!</p> -->
 </custom-marker>
 <custom-marker id="custom-marker-element3">
-  <!-- <img src="./360.jpg" alt="Preview" width="100px"> -->
   <h2 >Bedroom</h2>
-  <!-- <p>Klik untuk masuk ke ruang tamu!</p> -->
+</custom-marker>
+<custom-marker id="custom-marker-element4">
+  <h2 >Entrance</h2>
+</custom-marker>
+<custom-marker id="custom-marker-element5">
+  <h2 >Kitchen to Patio</h2>
+</custom-marker>
+<custom-marker id="custom-marker-element6">
+  <h2 >Lounge</h2>
+</custom-marker>
+<custom-marker id="custom-marker-element7">
+  <h2 >Patio</h2>
+</custom-marker>
+<custom-marker id="custom-marker-element8">
+  <h2 >Balcony</h2>
+</custom-marker>
+<custom-marker id="custom-marker-element9">
+  <h2 >Bathroom</h2>
 </custom-marker>
 
 <div class="absolute top-[5px] left-[10px] w-[200px] z-[99]">
