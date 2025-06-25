@@ -249,11 +249,6 @@ let pitch = 0; // rotasi atas-bawah
       yaw -= x * sensitivity;
       rotationRig.rotation.y = yaw; // hanya rotasi horizontal (Y)
     }
-
-    if (source.gamepad.buttons[3]?.pressed) {
-      yaw = 0;
-      rotationRig.rotation.y = yaw;
-    }
   }
 }
 
