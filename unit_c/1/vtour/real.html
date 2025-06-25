@@ -238,9 +238,20 @@ let pitch = 0; // rotasi atas-bawah
   for (const source of session.inputSources) {
     if (!source.gamepad || !source.handedness) continue;
 
-    const axes = source.gamepad.axes;
-    if (!axes || axes.length < 2) continue;
+    const { gamepad } = source;
+    const axes = gamepad.axes;
+    const buttons = gamepad.buttons;
 
+    // ✅ RESET jika tombol B ditekan (biasanya index 1 di controller kanan)
+    if (source.handedness === 'right' && buttons[1]?.pressed) {
+      yaw = 0;
+      pitch = 0;
+      rotationRig.rotation.set(pitch, yaw, 0);
+      continue; // lewati input analog saat reset
+    }
+
+    // ✅ Gerakan rotasi pakai analog
+    if (!axes || axes.length < 2) continue;
     const x = axes[2] || axes[0]; // kiri-kanan
     const y = axes[3] || axes[1]; // atas-bawah
 
@@ -249,14 +260,12 @@ let pitch = 0; // rotasi atas-bawah
     if (Math.abs(x) > 0.1) yaw -= x * sensitivity;
     if (Math.abs(y) > 0.1) {
       pitch -= y * sensitivity;
-      pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch)); // batas atas-bawah
+      pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch));
     }
 
-    rotationRig.rotation.set(pitch, yaw, 0); // ini yang penting
+    rotationRig.rotation.set(pitch, yaw, 0);
   }
 }
-
-
 
     loadPanorama('entrance');
 
