@@ -87,9 +87,9 @@
       const texture = new THREE.CanvasTexture(canvas);
       const material = new THREE.SpriteMaterial({ map: texture });
       const sprite = new THREE.Sprite(material);
-      sprite.scale.set(10, 10, 1);
+      sprite.scale.set(3, 3, 1);
 
-      const dir = new THREE.Vector3(...position).normalize().multiplyScalar(50);
+      const dir = new THREE.Vector3(...position).normalize().multiplyScalar(3);
       group.position.copy(dir);
       group.userData.target = target;
       group.add(sprite);
