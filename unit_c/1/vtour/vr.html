@@ -17,6 +17,10 @@
 
     const scene = new THREE.Scene();
 
+    const axesHelper = new THREE.AxesHelper(2); // ukuran panjang sumbu = 2 unit
+scene.add(axesHelper);
+
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 1.6, 0);
 
@@ -37,22 +41,65 @@
       entrance: {
         texture: './ENTRANCE_.jpg',
         markers: [
-          { name: 'Study Room', position: [-0.3, 0, -1], distance : 30, target: 'studyroom' },
-          { name: 'Kitchen', position: [-5, 0, -1], distance : 40, target: 'kitchen' }
+          { name: 'Study Room', position: [-10, 0, -30], target: 'studyroom' },
+          { name: 'Kitchen', position: [-30, 0, -5], target: 'kitchen' },
+          { name: 'Bedroom', position: [-30, 18, 5], target: 'bedroom' },
         ]
       },
       kitchen: {
         texture: './kitchen.jpg',
         markers: [
-          { name: 'Entrance', position: [0, 0, -1], target: 'entrance' }
+          { name: 'Entrance', position: [20, 0, -10], target: 'entrance' },
+          { name: 'Lounge', position: [5, 0, 30], target: 'lounge' },
+          { name: 'Kitchen-Patio', position: [-30, 0, 10], target: 'kitchenpatio' },
+        ]
+      },
+      kitchenpatio: {
+        texture: './kitchenpatio.jpg',
+        markers: [
+          { name: 'Entrance', position: [30, 0, -20], target: 'entrance' },
+          { name: 'Lounge', position: [30, 0, 5], target: 'lounge' },
+          { name: 'Patio', position: [-20, 0, 0], target: 'patio' },
+        ]
+      },
+      lounge: {
+        texture: './lounge.jpg',
+        markers: [
+          { name: 'Kitchen', position: [-6, 0, -20], target: 'kitchen' }
+        ]
+      },
+      patio: {
+        texture: './patio.jpg',
+        markers: [
+          { name: 'Kitchen-Patio', position: [10, 0, -20], target: 'kitchenpatio' }
         ]
       },
       studyroom: {
         texture: './study.jpg',
         markers: [
-          { name: 'Entrance', position: [0, 0, -1], target: 'entrance' }
+          { name: 'Entrance', position: [-1, 0, 15], target: 'entrance' }
         ]
-      }
+      },
+      bedroom: {
+        texture: './bedroom.jpg',
+        markers: [
+          { name: 'Entrance', position: [20, -5, -3], target: 'entrance' },
+          { name: 'Bathroom', position: [10, 0, 10], target: 'bathroom' },
+          { name: 'Balcony', position: [-30, 0, 0], target: 'balcony' },
+        ]
+      },
+      balcony: {
+        texture: './balcony.jpg',
+        markers: [
+          { name: 'Bedroom', position: [-20, 0, 15], target: 'bedroom' }
+        ]
+      },
+      bathroom: {
+        texture: './bathroom.jpg',
+        markers: [
+          { name: 'Bedroom', position: [20, 0, -10], target: 'bedroom' }
+        ]
+      },
     };
 
     let currentSphere = null;
@@ -97,7 +144,7 @@
       const sprite = new THREE.Sprite(material);
       sprite.scale.set(3, 3, 1);
 
-      const dir = new THREE.Vector3(...position).normalize().multiplyScalar(distance);
+      const dir = new THREE.Vector3(...position);
       group.position.copy(dir);
       group.userData.target = target;
       group.add(sprite);
@@ -177,7 +224,7 @@
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
     scene.add(controllerGrip);
 
-    loadPanorama('entrance');
+    loadPanorama('kitchenpatio');
 
     renderer.setAnimationLoop(() => {
       controls.update();
