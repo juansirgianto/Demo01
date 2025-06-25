@@ -21,8 +21,8 @@
 let pitch = 0; // rotasi atas-bawah
 
 
-    // const axesHelper = new THREE.AxesHelper(2); // ukuran panjang sumbu = 2 unit
-    // scene.add(axesHelper);
+    const axesHelper = new THREE.AxesHelper(2); // ukuran panjang sumbu = 2 unit
+    scene.add(axesHelper);
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 1.6, 0);
@@ -223,13 +223,13 @@ let pitch = 0; // rotasi atas-bawah
 
     const controller = renderer.xr.getController(0);
     controller.add(buildLaserPointer());
-    scene.add(controller);
+    rotationRig.add(controller);
     controller.addEventListener('selectstart', () => checkIntersections(controller));
 
     const controllerGrip = renderer.xr.getControllerGrip(0);
     const controllerModelFactory = new XRControllerModelFactory();
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
-    scene.add(controllerGrip);
+    rotationRig.add(controllerGrip);
 
     function moveWithThumbstick() {
   const session = renderer.xr.getSession();
@@ -246,20 +246,16 @@ let pitch = 0; // rotasi atas-bawah
 
     const sensitivity = 0.02;
 
-    if (Math.abs(x) > 0.1) {
-      yaw -= x * sensitivity;
-    }
-
+    if (Math.abs(x) > 0.1) yaw -= x * sensitivity;
     if (Math.abs(y) > 0.1) {
       pitch -= y * sensitivity;
-      // batasi agar tidak sampai 180° ke atas/bawah
-      pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch));
+      pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch)); // batas atas-bawah
     }
 
-    // Apply rotasi X (atas-bawah), Y (kiri-kanan)
-    rotationRig.rotation.set(pitch, yaw, 0);
+    rotationRig.rotation.set(pitch, yaw, 0); // ini yang penting
   }
 }
+
 
 
     loadPanorama('entrance');
