@@ -17,11 +17,19 @@
 
     const scene = new THREE.Scene();
 
-    // const axesHelper = new THREE.AxesHelper(2); // ukuran panjang sumbu = 2 unit
-    // scene.add(axesHelper);
+    let yaw = 0;   // rotasi kiri-kanan
+let pitch = 0; // rotasi atas-bawah
+
+
+    const axesHelper = new THREE.AxesHelper(2); // ukuran panjang sumbu = 2 unit
+    scene.add(axesHelper);
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 1.6, 0);
+
+    const cameraContainer = new THREE.Group(); // rig
+cameraContainer.add(camera);
+scene.add(cameraContainer);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -233,31 +241,22 @@
     const axes = source.gamepad.axes;
     if (!axes || axes.length < 2) continue;
 
-    const x = axes[2] || axes[0]; // X axis (left/right)
-    const y = axes[3] || axes[1]; // Y axis (forward/back)
+    const x = axes[2] || axes[0]; // kiri-kanan (yaw)
+    const y = axes[3] || axes[1]; // atas-bawah (pitch)
 
-    const speed = 0.05; // adjust movement speed
+    const sensitivity = 0.02;
 
-    // Hanya bergerak jika input cukup besar
-    if (Math.abs(x) > 0.1 || Math.abs(y) > 0.1) {
-      const dir = new THREE.Vector3();
+    // Putar kameraContainer berdasarkan input analog
+    if (Math.abs(x) > 0.1) yaw -= x * sensitivity;
+    if (Math.abs(y) > 0.1) pitch -= y * sensitivity;
 
-      // Ambil arah kamera saat ini
-      camera.getWorldDirection(dir);
-      dir.y = 0; // agar hanya bergerak di lantai (horizontal)
-      dir.normalize();
+    // Batas pitch agar tidak terbalik
+    pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch));
 
-      // Gerak ke depan / belakang
-      const forward = dir.clone().multiplyScalar(-y * speed);
-
-      // Gerak ke kanan / kiri
-      const right = new THREE.Vector3().crossVectors(camera.up, dir).normalize().multiplyScalar(x * speed);
-
-      // Gabungkan pergerakan
-      camera.position.add(forward).add(right);
-    }
+    cameraContainer.rotation.set(pitch, yaw, 0);
   }
 }
+
 
 
     loadPanorama('entrance');
