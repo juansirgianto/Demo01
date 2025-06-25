@@ -21,8 +21,8 @@
 let pitch = 0; // rotasi atas-bawah
 
 
-    const axesHelper = new THREE.AxesHelper(2); // ukuran panjang sumbu = 2 unit
-    scene.add(axesHelper);
+    // const axesHelper = new THREE.AxesHelper(2); // ukuran panjang sumbu = 2 unit
+    // scene.add(axesHelper);
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 1.6, 0);
@@ -223,13 +223,13 @@ let pitch = 0; // rotasi atas-bawah
 
     const controller = renderer.xr.getController(0);
     controller.add(buildLaserPointer());
-    rotationRig.add(controller);
+    scene.add(controller);
     controller.addEventListener('selectstart', () => checkIntersections(controller));
 
     const controllerGrip = renderer.xr.getControllerGrip(0);
     const controllerModelFactory = new XRControllerModelFactory();
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
-    rotationRig.add(controllerGrip);
+    scene.add(controllerGrip);
 
     function moveWithThumbstick() {
   const session = renderer.xr.getSession();
@@ -238,32 +238,17 @@ let pitch = 0; // rotasi atas-bawah
   for (const source of session.inputSources) {
     if (!source.gamepad || !source.handedness) continue;
 
-    const { gamepad } = source;
-    const axes = gamepad.axes;
-    const buttons = gamepad.buttons;
-
-    // ✅ RESET jika tombol B ditekan (biasanya index 1 di controller kanan)
-    if (source.handedness === 'right' && buttons[1]?.pressed) {
-      yaw = 0;
-      pitch = 0;
-      rotationRig.rotation.set(pitch, yaw, 0);
-      continue; // lewati input analog saat reset
-    }
-
-    // ✅ Gerakan rotasi pakai analog
+    const axes = source.gamepad.axes;
     if (!axes || axes.length < 2) continue;
-    const x = axes[2] || axes[0]; // kiri-kanan
-    const y = axes[3] || axes[1]; // atas-bawah
+
+    const x = axes[2] || axes[0]; // arah kiri-kanan analog
 
     const sensitivity = 0.02;
 
-    if (Math.abs(x) > 0.1) yaw -= x * sensitivity;
-    if (Math.abs(y) > 0.1) {
-      pitch -= y * sensitivity;
-      pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch));
+    if (Math.abs(x) > 0.1) {
+      yaw -= x * sensitivity;
+      rotationRig.rotation.y = yaw; // hanya rotasi horizontal (Y)
     }
-
-    rotationRig.rotation.set(pitch, yaw, 0);
   }
 }
 
