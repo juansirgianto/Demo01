@@ -27,9 +27,9 @@ let pitch = 0; // rotasi atas-bawah
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 1.6, 0);
 
-    const cameraContainer = new THREE.Group(); // rig
-cameraContainer.add(camera);
-scene.add(cameraContainer);
+    const rotationRig = new THREE.Group(); // ini hanya untuk rotasi
+    rotationRig.add(camera);
+    scene.add(rotationRig);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -232,32 +232,28 @@ scene.add(cameraContainer);
     scene.add(controllerGrip);
 
     function moveWithThumbstick() {
-  const session = renderer.xr.getSession();
-  if (!session) return;
+      const session = renderer.xr.getSession();
+      if (!session) return;
 
-  for (const source of session.inputSources) {
-    if (!source.gamepad || !source.handedness) continue;
+      for (const source of session.inputSources) {
+        if (!source.gamepad || !source.handedness) continue;
 
-    const axes = source.gamepad.axes;
-    if (!axes || axes.length < 2) continue;
+        const axes = source.gamepad.axes;
+        if (!axes || axes.length < 2) continue;
 
-    const x = axes[2] || axes[0]; // kiri-kanan (yaw)
-    const y = axes[3] || axes[1]; // atas-bawah (pitch)
+        const x = axes[2] || axes[0]; // yaw (kiri-kanan)
+        const y = axes[3] || axes[1]; // pitch (atas-bawah)
 
-    const sensitivity = 0.02;
+        const sensitivity = 0.02;
 
-    // Putar kameraContainer berdasarkan input analog
-    if (Math.abs(x) > 0.1) yaw -= x * sensitivity;
-    if (Math.abs(y) > 0.1) pitch -= y * sensitivity;
+        if (Math.abs(x) > 0.1) yaw -= x * sensitivity;
+        if (Math.abs(y) > 0.1) pitch -= y * sensitivity;
 
-    // Batas pitch agar tidak terbalik
-    pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch));
+        pitch = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch));
 
-    cameraContainer.rotation.set(pitch, yaw, 0);
-  }
-}
-
-
+        rotationRig.rotation.set(pitch, yaw, 0); // hanya rotasi
+      }
+    }
 
     loadPanorama('entrance');
 
