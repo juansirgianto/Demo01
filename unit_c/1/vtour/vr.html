@@ -223,11 +223,49 @@
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
     scene.add(controllerGrip);
 
+    function moveWithThumbstick() {
+  const session = renderer.xr.getSession();
+  if (!session) return;
+
+  for (const source of session.inputSources) {
+    if (!source.gamepad || !source.handedness) continue;
+
+    const axes = source.gamepad.axes;
+    if (!axes || axes.length < 2) continue;
+
+    const x = axes[2] || axes[0]; // X axis (left/right)
+    const y = axes[3] || axes[1]; // Y axis (forward/back)
+
+    const speed = 0.05; // adjust movement speed
+
+    // Hanya bergerak jika input cukup besar
+    if (Math.abs(x) > 0.1 || Math.abs(y) > 0.1) {
+      const dir = new THREE.Vector3();
+
+      // Ambil arah kamera saat ini
+      camera.getWorldDirection(dir);
+      dir.y = 0; // agar hanya bergerak di lantai (horizontal)
+      dir.normalize();
+
+      // Gerak ke depan / belakang
+      const forward = dir.clone().multiplyScalar(-y * speed);
+
+      // Gerak ke kanan / kiri
+      const right = new THREE.Vector3().crossVectors(camera.up, dir).normalize().multiplyScalar(x * speed);
+
+      // Gabungkan pergerakan
+      camera.position.add(forward).add(right);
+    }
+  }
+}
+
+
     loadPanorama('entrance');
 
     renderer.setAnimationLoop(() => {
       controls.update();
       updateHover(controller); // Hover update here
+      moveWithThumbstick();
       renderer.render(scene, camera);
     });
 
