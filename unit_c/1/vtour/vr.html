@@ -37,7 +37,7 @@
       entrance: {
         texture: './ENTRANCE_.jpg',
         markers: [
-          { name: 'Kitchen', position: [0, 0, -1], target: 'kitchen' }
+          { name: 'Kitchen', position: [-0.3, 0, -1], target: 'kitchen' }
         ]
       },
       kitchen: {
@@ -60,7 +60,7 @@
       const material = new THREE.LineBasicMaterial({ color: 0xffffff });
       const line = new THREE.Line(geometry, material);
       line.name = 'laserPointer';
-      line.scale.z = 5;
+      line.scale.z = 50;
       return line;
     }
 
@@ -90,7 +90,7 @@
       const sprite = new THREE.Sprite(material);
       sprite.scale.set(3, 3, 1);
 
-      const dir = new THREE.Vector3(...position).normalize().multiplyScalar(2);
+      const dir = new THREE.Vector3(...position).normalize().multiplyScalar(30);
       group.position.copy(dir);
       group.userData.target = target;
       group.add(sprite);
