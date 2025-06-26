@@ -1,4 +1,4 @@
-const images = ["./ENTRANCE.jpg", "./BEDROOM.jpg", "./STUDYROOM.jpg", "./ENSUITE.jpg", "./KITCHEN.jpg", "./LOUNGE.jpg", "./PATIO_BACKYARD.jpg"];
+const images = ["./ENTRANCE.jpg", "./BED.jpg", "./STUDYROOM.jpg", "./ENSUITE.jpg", "./KITCHEN.jpg", "./LOUNGE.jpg", "./PATIO_BACKYARD.jpg"];
 let index = 0;
 
 const carouselImage = document.getElementById("carouselImage");

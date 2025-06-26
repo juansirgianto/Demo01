@@ -1,4 +1,4 @@
-const images = ["../../unit_a/1/ENTRANCE.jpg", "../../unit_a/1/BEDROOM.jpg", "../../unit_a/1/STUDYROOM.jpg", "../../unit_a/1/ENSUITE.jpg",
+const images = ["../../unit_a/1/ENTRANCE.jpg", "../../unit_a/1/BED.jpg", "../../unit_a/1/STUDYROOM.jpg", "../../unit_a/1/ENSUITE.jpg",
    "../../unit_a/1/KITCHEN.jpg", "../../unit_a/1/LOUNGE.jpg", "../../unit_a/1/PATIO_BACKYARD.jpg"];
 let index = 0;
 
