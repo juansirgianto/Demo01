@@ -1,4 +1,4 @@
-const images = ["./bedroom.jpg", "./2.jpg", "./3.jpg", "./1.jpg", "./2.jpg"];
+const images = ["./ENTRANCE.jpg", "./BEDROOM.jpg", "./STUDYROOM.jpg", "./ENSUITE.jpg", "./KITCHEN.jpg", "./LOUNGE.jpg", "./PATIO_BACKYARD.jpg"];
 let index = 0;
 
 const carouselImage = document.getElementById("carouselImage");
@@ -74,6 +74,7 @@ const scrollContainer = document.getElementById("thumbnailScroll");
 
   galleryBtn.addEventListener('click', () => {
     carousel.classList.remove('hidden');
+    thumbnail.classList.remove('hidden');
     floorplan.classList.add('hidden');
     floorplanlvl.classList.add('hidden');
     setActiveButton('gallery');
