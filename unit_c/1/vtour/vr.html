@@ -10,7 +10,7 @@
 </head>
 <body>
   <script type="module">
-    import * as THREE from 'https://cdn.jsdelivr.net/npm/three/build/three.module.js';
+    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
     import { VRButton } from 'https://unpkg.com/three@0.160.0/examples/jsm/webxr/VRButton.js';
     import { XRControllerModelFactory } from './xrcontroller.js';
     import { OrbitControls } from '../../../libs/OrbitControls.js';
@@ -172,6 +172,7 @@ let pitch = 0; // rotasi atas-bawah
       const geometry = new THREE.SphereGeometry(500, 60, 40);
       geometry.scale(-1, 1, 1);
       const texture = new THREE.TextureLoader().load(data.texture);
+      texture.encoding = THREE.sRGBEncoding;
       const material = new THREE.MeshBasicMaterial({ map: texture });
       currentSphere = new THREE.Mesh(geometry, material);
       scene.add(currentSphere);

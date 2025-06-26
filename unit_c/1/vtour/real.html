@@ -223,13 +223,13 @@ let pitch = 0; // rotasi atas-bawah
 
     const controller = renderer.xr.getController(0);
     controller.add(buildLaserPointer());
-    scene.add(controller);
+    rotationRig.add(controller);
     controller.addEventListener('selectstart', () => checkIntersections(controller));
 
     const controllerGrip = renderer.xr.getControllerGrip(0);
     const controllerModelFactory = new XRControllerModelFactory();
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
-    scene.add(controllerGrip);
+    rotationRig.add(controllerGrip);
 
     function moveWithThumbstick() {
   const session = renderer.xr.getSession();
