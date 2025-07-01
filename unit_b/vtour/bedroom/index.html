@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual Tour</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./vtour.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin/index.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #viewer {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Viewer -->
+<div id="viewer"></div>
+
+<!-- Marker Custom Element -->
+<custom-marker id="custom-marker-element">
+  <!-- <img src="./360.jpg" alt="Preview" width="100px"> -->
+  <h2 >Entrance</h2>
+  <!-- <p>Klik untuk masuk ke ruang tamu!</p> -->
+</custom-marker>
+<custom-marker id="custom-marker-element2">
+  <!-- <img src="./360.jpg" alt="Preview" width="100px"> -->
+  <h2 >Bedroom Balcony</h2>
+  <!-- <p>Klik untuk masuk ke ruang tamu!</p> -->
+</custom-marker>
+<custom-marker id="custom-marker-element3">
+  <!-- <img src="./360.jpg" alt="Preview" width="100px"> -->
+  <h2 >Bathroom</h2>
+  <!-- <p>Klik untuk masuk ke ruang tamu!</p> -->
+</custom-marker>
+
+<div class="absolute top-[5px] left-[10px] w-[200px] z-[99]">
+  <a href="/Demo01/">
+  <img src="../../../../CC white.png" alt="" >
+  </a>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three/build/three.module.js",
+    "@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.module.js",
+    "@photo-sphere-viewer/markers-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin/index.module.js"
+  }
+}
+</script>
+
+<script type="module" src="./vtour.js"></script>
+
+</body>
+</html>
