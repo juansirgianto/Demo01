@@ -2,7 +2,7 @@ import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 import { OrbitControls } from 'https://esm.run/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 import { LumaSplatsThree, LumaSplatsSemantics } from './libs/luma-web.module.js';
 import { POIs } from './js/pois.js';
-import { createCubes } from './js/cubes.js';
+import { createPins } from './js/cubes.js';
 import { setupGallery } from './js/gallery.js';
 
 // 🎯 Setup dasar
@@ -12,7 +12,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio, 2);
 
 const scene = new THREE.Scene();
-const { cubes, cubePOIs } = createCubes(scene);
+const { pins, pinPOIs } = createPins(scene);
 const hiddenStatuses = new Set(); 
 scene.background = new THREE.Color(0xf5f5f5); 
 // scene.background = new THREE.Color(0xffffff); 
@@ -35,27 +35,6 @@ const splats = new LumaSplatsThree({
 });
 scene.add(splats);
 
-// background wall
-// const radius = 4;
-// const height = 3;
-// const segments = 1000;
-
-// const geometry = new THREE.CylinderGeometry(radius, radius, height, segments, 1, true);
-// const material = new THREE.MeshBasicMaterial({
-//   color: 0xf5f5f5,
-//   side: THREE.BackSide,
-//   transparent: true,
-//   opacity: 1.0
-// });
-// const wall = new THREE.Mesh(geometry, material);
-
-// // Sesuaikan dengan posisi model Luma kamu (misal controls.target)
-// const modelPosition = controls.target; // misalnya model di tengah
-
-// wall.position.set(modelPosition.x, modelPosition.y + height / 2, modelPosition.z);
-// scene.add(wall);
-// ;
-
 // splats.semanticsMask = LumaSplatsSemantics.FOREGROUND;
 
 // 🌍 State untuk zoom dan orbit
@@ -74,7 +53,7 @@ const zoomTo = new THREE.Vector3();
 
 let orbitTarget = null;
 let currentMode = 'home'; // 'home', 'apartments', 'amenities'
-let clickOnCube = false;
+let clickOnPin = false;
 
 const resetTargetFrom = new THREE.Vector3();
 const resetTargetTo = initialControlsTarget.clone();
@@ -165,8 +144,8 @@ function startZoomAndOrbit(poi) {
 
 
 // filter button
-function filterCubesByStatus(status) {
-  cubes.forEach(c => {
+function filterPinsByStatus(status) {
+  pins.forEach(c => {
     const isMatch = c.userData.status !== status; // 🔄 dibalik: yang BUKAN status yang dipilih akan tampil
     c.visible = isMatch;
   });
@@ -200,7 +179,7 @@ function toggleFilter(status, button) {
 }
 
 function applyFilter() {
-  cubes.forEach(c => {
+  pins.forEach(c => {
     c.visible = !hiddenStatuses.has(c.userData.status);
   });
 
@@ -247,7 +226,7 @@ const apartmentsButton = document.querySelector('#navbar button:nth-child(2)');
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
-let hoveredCube = null;
+let hoveredPin = null;
 
 // 🖱️ Hover event
 canvas.addEventListener('mousemove', (event) => {
@@ -256,8 +235,8 @@ canvas.addEventListener('mousemove', (event) => {
   mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const visibleCubes = cubes.filter(c => c.visible);
-  const intersects = raycaster.intersectObjects(visibleCubes);
+  const visiblePins = pins.filter(c => c.visible);
+  const intersects = raycaster.intersectObjects(visiblePins);
 
   const tooltip = document.getElementById('tooltip');
 
@@ -268,34 +247,25 @@ canvas.addEventListener('mousemove', (event) => {
   }
 
   if (intersects.length > 0) {
-    const cube = intersects[0].object;
+  const sprite = intersects[0].object;
+  const pinGroup = sprite.parent;
 
-    // Highlight cube
-    if (hoveredCube !== cube) {
-      if (hoveredCube) hoveredCube.material.color.copy(hoveredCube.userData.originalColor);
-      hoveredCube = cube;
-      if (!cube.userData.originalColor) cube.userData.originalColor = cube.material.color.clone();
-      cube.material.color.set(0x00bfff);
-    }
-
-    // ✅ Tampilkan tooltip
-    tooltip.style.left = event.clientX + 10 + 'px';
-    tooltip.style.top = event.clientY + 10 + 'px';
-    tooltip.innerHTML = `
-    <div><strong>${cube.userData.name}</strong></div>
-    <div >Status: ${cube.userData.status}</div>
-    <div class="tooltip-line">Price: ${cube.userData.price}</div>
+  // ✅ Tampilkan tooltip
+  tooltip.style.left = event.clientX + 10 + 'px';
+  tooltip.style.top = event.clientY + 10 + 'px';
+  tooltip.innerHTML = `
+    <div><strong>${pinGroup.userData.name}</strong></div>
+    <div>Status: ${pinGroup.userData.status}</div>
+    <div class="tooltip-line">Price: ${pinGroup.userData.price}</div>
   `;
-    tooltip.style.display = 'block';
+  tooltip.style.display = 'block';
 
-    canvas.style.cursor = 'pointer';
-  } else {
-    if (hoveredCube) hoveredCube.material.color.copy(hoveredCube.userData.originalColor);
-    hoveredCube = null;
+  canvas.style.cursor = 'pointer';
+} else {
+  tooltip.style.display = 'none';
+  canvas.style.cursor = 'default';
+}
 
-    tooltip.style.display = 'none';
-    canvas.style.cursor = 'default';
-  }
 });
 
 // Fungsi: atur visibilitas POI (tombol & deskripsi)
@@ -309,39 +279,39 @@ function setPOIVisibility(visible) {
 }
 
 // Fungsi: atur visibilitas kubus
-function setCubesVisibility(visible) {
-  cubes.forEach(cube => cube.visible = visible);
+function setPinsVisibility(visible) {
+  pins.forEach(pin => pin.visible = visible);
 }
 
 // HOME: hanya Luma AI render
-homeButton.addEventListener('click', () => {
-  currentMode = 'home';
+// homeButton.addEventListener('click', () => {
+//   currentMode = 'home';
 
-  // 🚀 Mulai animasi reset kamera
-  resettingCamera = true;
-  resetStartTime = performance.now();
+//   // 🚀 Mulai animasi reset kamera
+//   resettingCamera = true;
+//   resetStartTime = performance.now();
 
-  // ambil posisi terakhir kamera dan target saat ini
-  resetFrom.copy(camera.position.clone());
-  resetTo.copy(initialCameraPosition.clone());
+//   // ambil posisi terakhir kamera dan target saat ini
+//   resetFrom.copy(camera.position.clone());
+//   resetTo.copy(initialCameraPosition.clone());
 
-  resetTargetFrom.copy(controls.target.clone());
-  resetTargetTo.copy(initialControlsTarget.clone());
+//   resetTargetFrom.copy(controls.target.clone());
+//   resetTargetTo.copy(initialControlsTarget.clone());
 
-  setPOIVisibility(false);
-  setCubesVisibility(false);
-  zooming = false;
-  orbiting = false;
-  orbitTarget = null;
+//   setPOIVisibility(false);
+//   setPinsVisibility(false);
+//   zooming = false;
+//   orbiting = false;
+//   orbitTarget = null;
 
-  document.getElementById('carouselModal').classList.add('hidden');
-  document.querySelectorAll('.description-box').forEach(d => d.style.display = 'none');
-  document.getElementById('filterbar').style.display = 'none';
-  document.getElementById('listpoi').style.display = 'none';
-});
+//   document.getElementById('carouselModal').classList.add('hidden');
+//   document.querySelectorAll('.description-box').forEach(d => d.style.display = 'none');
+//   document.getElementById('filterbar').style.display = 'none';
+//   document.getElementById('listpoi').style.display = 'none';
+// });
 
 // APARTMENTS: tampilkan hanya kubus
-apartmentsButton.addEventListener('click', () => {
+function enterApartmentsMode() {
   currentMode = 'apartments';
 
   // 🚀 Mulai animasi kamera ke posisi apartemen
@@ -352,26 +322,26 @@ apartmentsButton.addEventListener('click', () => {
   navbarTargetFrom.copy(controls.target.clone());
 
   // 🎯 Tentukan posisi & target yang kamu mau
-  navbarTo.set(1.05, 1.14, 0.84); // posisi kamera (ubah sesuai preferensi)
-  navbarTargetTo.set(0, 0, 0); // titik yang dilihat (ubah sesuai fokus)
+  navbarTo.set(1.05, 1.14, 0.84); // posisi kamera
+  navbarTargetTo.set(0, 0, 0);     // titik fokus
 
   zooming = false;
   orbiting = false;
   orbitTarget = null;
 
   setPOIVisibility(false);
-  setCubesVisibility(true);
+  setPinsVisibility(true);
 
   document.getElementById('carouselModal').classList.add('hidden');
   document.querySelectorAll('.description-box').forEach(d => d.style.display = 'none');
   document.getElementById('filterbar').style.display = 'flex';
   document.getElementById('listpoi').style.display = 'none';
-  // ✅ Reset semua filter: kosongkan hiddenStatuses
+
+  // ✅ Reset semua filter
   hiddenStatuses.clear();
   document.querySelectorAll('#filterbar button').forEach(btn => btn.classList.remove('opacity-50'));
   applyFilter();
-});
-
+}
 
 // AMENITIES: tampilkan hanya POI
 // amenitiesButton.addEventListener('click', () => {
@@ -414,7 +384,7 @@ function setDefaultHomeState() {
   });
 
   // Sembunyikan semua kubus apartemen
-  cubes.forEach(c => c.visible = false);
+  pins.forEach(c => c.visible = false);
 
   // Reset status orbit/zoom
   orbiting = false;
@@ -422,53 +392,47 @@ function setDefaultHomeState() {
   orbitTarget = null;
 }
 
-setDefaultHomeState(); // 🔧 panggil saat pertama kali
+enterApartmentsMode(); // 🔧 panggil saat pertama kali
 
-// cube click event
+// pin click event
 function onCanvasClick(event) {
   if (currentMode !== "apartments") return;
 
-  clickOnCube = true;
+  clickOnPin = true;
   orbiting = false;
   const rect = canvas.getBoundingClientRect();
   mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const visibleCubes = cubes.filter((c) => c.visible);
-  const intersects = raycaster.intersectObjects(visibleCubes);
+  const visiblePins = pins.filter(c => c.visible);
+  const intersects = raycaster.intersectObjects(visiblePins, true);
 
   resetIdleTimer();
 
   if (intersects.length > 0) {
-    const clickedCube = intersects[0].object;
+    const clickedSprite = intersects[0].object;
+    const pinGroup = clickedSprite.parent;
 
-    // Temukan POI yang sesuai dari cubePOIs
-    const cubePOI = cubePOIs.find((c) => c.mesh === clickedCube);
+    const pinPOI = pinPOIs.find((c) => c.mesh === pinGroup);
 
-    if (cubePOI) {
-      // Zoom & orbit ke cube
-      startZoomAndOrbit(cubePOI);
+    if (pinPOI) {
+      startZoomAndOrbit(pinPOI);
 
-      // Tampilkan deskripsi yang sesuai
-      document
-        .querySelectorAll(".description-box")
-        .forEach((d) => (d.style.display = "none"));
-      document.getElementById(cubePOI.descriptionId).style.display = "block";
+      document.querySelectorAll(".description-box").forEach((d) => d.style.display = "none");
+      document.getElementById(pinPOI.descriptionId).style.display = "block";
 
       // Highlight hijau sementara
-      if (!clickedCube.userData.originalColor) {
-        clickedCube.userData.originalColor = clickedCube.material.color.clone();
-      }
-      clickedCube.material.color.set(0x00ff00);
+      clickedSprite.material.color.set(0x00ff00);
       setTimeout(() => {
-        clickedCube.material.color.copy(clickedCube.userData.originalColor);
+        clickedSprite.material.color.set(0xffffff); // atau ubah sesuai default
       }, 300);
     }
   }
-  resetIdleTimer();
-  startOrbitAfterDelay(); // tanpa argumen = orbit ke fokus kamera saat ini
+
+  startOrbitAfterDelay();
 }
+
 
 document.querySelectorAll(".close-description").forEach((btn) => {
   btn.addEventListener("click", (e) => {
@@ -584,8 +548,8 @@ window.addEventListener('click', (e) => {
   ) return;
 
   // Jika barusan klik cube, jangan tutup deskripsi
-  if (clickOnCube) {
-    clickOnCube = false;
+  if (clickOnPin) {
+    clickOnPin = false;
     return;
   }
 

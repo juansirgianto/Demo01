@@ -3,10 +3,10 @@ export const galleryMap = {
   hotel: ['./hotel1.jpg', './hotel.jpg', './apart.jpg'],
   shop: ['./apart1.jpg', './apart.jpg'],
 
-  cube0: ['./foto/1424CC_CanH_PLOT 10_REV 4 - Photo.jpg', './unit_a/1/1.jpg', './unit_a/1/2.jpg', './unit_a/1/3.jpg'],
-  cube1: ['./foto/1424CC_CanH_PLOT 9_REV 4 - Photo.jpg', './unit_b/1/1.jpg', './unit_b/1/2.jpg', './unit_b/1/3.jpg'],
-  cube2: ['./foto/1424CC_CanH_PLOT 15_REV 4 - Photo.jpg', './unit_c/1/1.jpg', './unit_c/1/2.jpg', './unit_c/1/3.jpg'],
-  cube3: ['./apart1.jpg', './apart.jpg'],
+  pin0: ['./unit_a/ENTRANCE.jpg', './unit_a/BED.jpg', "./unit_a/STUDYROOM.jpg", "./unit_a/ENSUITE.jpg", "./unit_a/KITCHEN.jpg", "./unit_a/LOUNGE.jpg", './unit_a/PATIO_BACKYARD.jpg'],
+  pin1: ['./foto/1424CC_CanH_PLOT 9_REV 4 - Photo.jpg', './unit_b/1/1.jpg', './unit_b/1/2.jpg', './unit_b/1/3.jpg'],
+  pin2: ['./foto/1424CC_CanH_PLOT 15_REV 4 - Photo.jpg', './unit_c/1/1.jpg', './unit_c/1/2.jpg', './unit_c/1/3.jpg'],
+  pin3: ['./apart1.jpg', './apart.jpg'],
 };
 
 let currentCarouselImages = [];
@@ -19,22 +19,22 @@ export function setupGallery() {
   const closeBtn = document.getElementById('closeCarousel');
 
   // Buka modal saat tombol galeri diklik
-  document.querySelectorAll('.gallery').forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.stopPropagation();
+  // document.querySelectorAll('.gallery').forEach(button => {
+  //   button.addEventListener('click', (e) => {
+  //     e.stopPropagation();
 
-      const id = button.getAttribute('data-gallery-id');
-      const images = galleryMap[id] || [];
+  //     const id = button.getAttribute('data-gallery-id');
+  //     const images = galleryMap[id] || [];
 
-      if (images.length === 0) {
-        alert("Belum ada gambar galeri untuk POI ini.");
-        return;
-      }
+  //     if (images.length === 0) {
+  //       alert("Belum ada gambar galeri untuk POI ini.");
+  //       return;
+  //     }
 
-      modal.classList.remove('hidden');
-      updateCarouselImages(images, mainImage, thumbnailsContainer);
-    });
-  });
+  //     modal.classList.remove('hidden');
+  //     updateCarouselImages(images, mainImage, thumbnailsContainer);
+  //   });
+  // });
 
   // Tombol tutup modal
   closeBtn.addEventListener('click', () => {
