@@ -88,6 +88,14 @@ svg {
       height: 100%;
     }
 
+    #thumbnailScroll {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+#thumbnailScroll::-webkit-scrollbar {
+  display: none;
+}
+
   @media screen and (min-width: 769px) and (max-width: 1024px) {
     .description-box {
     /* position: absolute; */
@@ -95,7 +103,7 @@ svg {
     left: 20px;
     color: var(--third);
     border-radius: 25px;
-    max-width: 200px;
+    max-width: 250px;
     z-index: 50;
     backdrop-filter: blur(5px);
   }

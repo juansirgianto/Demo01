@@ -1,0 +1,259 @@
+// const svg = document.getElementById("map-svg");
+// const width = window.innerWidth;
+// const height = window.innerHeight;
+
+// // Sesuaikan viewBox agar koordinat SVG = koordinat piksel
+// svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+// const container = document.getElementById("tracking-area");
+// const cursorInfo = document.getElementById("cursorInfo");
+// const xLine = document.getElementById("xLine");
+// const yLine = document.getElementById("yLine");
+
+// let lastCopied = ""; // untuk mencegah copy terus-terusan
+
+// container.addEventListener("mousemove", (e) => {
+//   const rect = container.getBoundingClientRect();
+//   const x = Math.round(e.clientX - rect.left);
+//   const y = Math.round(e.clientY - rect.top);
+
+//   const coordText = `X: ${x}, Y: ${y}`;
+//   cursorInfo.innerText = coordText;
+//   cursorInfo.style.left = `${e.clientX + 15}px`;
+//   cursorInfo.style.top = `${e.clientY + 15}px`;
+
+//   xLine.style.top = `${e.clientY}px`;
+//   yLine.style.left = `${e.clientX}px`;
+
+//   const copyText = `${x},${y}`;
+//   if (copyText !== lastCopied) {
+//     navigator.clipboard.writeText(copyText).catch((err) => {
+//       console.error("Copy failed: ", err);
+//     });
+//     lastCopied = copyText;
+//   }
+// });
+
+// // Bg Responsive
+// function adjustImagePosition() {
+//   const img = document.getElementById("bgImage");
+//   const width = window.innerWidth;
+
+//   if (width <= 768) {
+//     // Mobile
+//     img.setAttribute("x", "-500");
+//     img.setAttribute("y", "-100");
+//   } else if (width <= 1024) {
+//     // Tablet
+//     img.setAttribute("x", "-500");
+//     img.setAttribute("y", "-100");
+//   } else {
+//     // Desktop
+//     img.setAttribute("x", "0");
+//     img.setAttribute("y", "-120");
+//   }
+// }
+
+// // Path Responsive
+// function adjustPathPosition() {
+//   const path = document.getElementById("clusterPath");
+//   const width = window.innerWidth;
+
+//   if (width <= 768) {
+//     path.setAttribute("transform", "translate(-500, -50)");
+//   } else if (width <= 1024) {
+//     path.setAttribute("transform", "translate(-500, 20)");
+//   } else {
+//     path.setAttribute("transform", "translate(0, 0)");
+//   }
+// }
+
+// window.addEventListener("resize", adjustPathPosition);
+// window.addEventListener("DOMContentLoaded", adjustPathPosition);
+
+// window.addEventListener("resize", adjustImagePosition);
+// window.addEventListener("DOMContentLoaded", adjustImagePosition);
+
+const images = ["../unit_a/ENTRANCE.jpg", "../unit_a/BED.jpg", "../unit_a/STUDYROOM.jpg", "../unit_a/ENSUITE.jpg", "../unit_a/KITCHEN.jpg", "../unit_a/LOUNGE.jpg", "../unit_a/PATIO_BACKYARD.jpg"];
+let index = 0;
+
+const carouselImage = document.getElementById("carouselImage");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const thumbnails = document.querySelectorAll(".thumbnail");
+
+function updateCarousel() {
+  carouselImage.src = images[index];
+
+  thumbnails.forEach((thumb, idx) => {
+    if (idx === index) {
+      thumb.classList.add("border-blue-500");
+      thumb.classList.remove("border-transparent");
+    } else {
+      thumb.classList.remove("border-blue-500");
+      thumb.classList.add("border-transparent");
+    }
+  });
+}
+
+prevBtn.addEventListener("click", () => {
+  index = (index - 1 + images.length) % images.length;
+  updateCarousel();
+});
+
+nextBtn.addEventListener("click", () => {
+  index = (index + 1) % images.length;
+  updateCarousel();
+});
+
+// Klik thumbnail
+thumbnails.forEach((thumb) => {
+  thumb.addEventListener("click", () => {
+    index = parseInt(thumb.dataset.index);
+    updateCarousel();
+  });
+});
+
+// Inisialisasi pertama
+updateCarousel();
+
+// arrow thumbnail
+const scrollContainer = document.getElementById("thumbnailScroll");
+  const scrollAmount = 150; // jumlah pixel scroll setiap klik
+
+  document.getElementById("thumbLeft").addEventListener("click", () => {
+    scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  });
+
+  document.getElementById("thumbRight").addEventListener("click", () => {
+    scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  });
+
+// active button
+  const galleryBtn = document.getElementById('gallery');
+  const floorPlanBtn = document.getElementById('floorPlan');
+  const carouselWrapper = document.getElementById('carouselWrapper');
+  const carousel = document.getElementById('carouselContainer');
+  const thumbnail = document.getElementById('thumbnailScroll');
+  const floorplanWrapper = document.getElementById('floorplanWrapper');
+  const floorplan = document.getElementById('floorplanImage');
+  const floorplanlvl = document.getElementById('floorPlanlvl');
+
+  // Fungsi helper untuk update tombol aktif
+  function setActiveButton(active) {
+    if (active === 'gallery') {
+      galleryBtn.classList.add('bg-[#f5f4ea]', 'text-[#2e3047]');
+      floorPlanBtn.classList.remove('bg-[#f5f4ea]', 'text-[#2e3047]');
+    } else if (active === 'floorplan') {
+      floorPlanBtn.classList.add('bg-[#f5f4ea]', 'text-[#2e3047]');
+      galleryBtn.classList.remove('bg-[#f5f4ea]', 'text-[#2e3047]');
+    } else {
+    // Jika tidak ada tombol aktif
+    galleryBtn.classList.remove('bg-[#f5f4ea]', 'text-[#2e3047]');
+    floorPlanBtn.classList.remove('bg-[#f5f4ea]', 'text-[#2e3047]');
+  }
+  }
+
+  galleryBtn.addEventListener('click', () => {
+    carouselWrapper.classList.remove('hidden');
+    carousel.classList.remove('hidden');
+    thumbnail.classList.remove('hidden');
+    floorplan.classList.add('hidden');
+    floorplanlvl.classList.add('hidden');
+    floorplanWrapper.classList.add('hidden');
+    setActiveButton('gallery');
+  });
+
+  floorPlanBtn.addEventListener('click', () => {
+    carousel.classList.add('hidden');
+    thumbnail.classList.add('hidden');
+    floorplanWrapper.classList.remove('hidden');
+    floorplan.classList.remove('hidden');
+    floorplanlvl.classList.remove('hidden');
+    carouselWrapper.classList.add('hidden');
+    setActiveButton('floorplan');
+
+    floorplan.src = floorplanImages[1];
+  setActiveFloor(1);
+  });
+
+  // Set default active
+  // setActiveButton('gallery');
+
+  // Tombol lantai floorplan
+const floor1Btn = document.getElementById('floor1');
+const floor2Btn = document.getElementById('floor2');
+
+// Gambar floorplan sesuai lantai
+const floorplanImages = {
+  1: '../unit_a/1707CC_REY_UNIT A3_REV5.png',  // default image
+  2: '../unit_a/1937_CC_REY_UNIT A2_REV 1.png'          // ganti ini sesuai file kamu
+};
+
+// Event saat tombol 1 ditekan
+floor1Btn.addEventListener('click', () => {
+  floorplan.src = floorplanImages[1];
+  setActiveFloor(1);
+});
+
+floor2Btn.addEventListener('click', () => {
+  floorplan.src = floorplanImages[2];
+  setActiveFloor(2);
+});
+
+const floor1Container = document.getElementById('floor1Container');
+const floor2Container = document.getElementById('floor2Container');
+
+function setActiveFloor(floor) {
+  if (floor === 1) {
+    floor1Container.classList.add('bg-[#f5f4ea]', 'text-[#2e3047]');
+    floor1Container.classList.remove('bg-[#2e3047]', 'text-[#f5f4ea]');
+
+    floor2Container.classList.remove('bg-[#f5f4ea]', 'text-[#2e3047]');
+    floor2Container.classList.add('bg-[#2e3047]', 'text-[#f5f4ea]');
+  } else if (floor === 2) {
+    floor2Container.classList.add('bg-[#f5f4ea]', 'text-[#2e3047]');
+    floor2Container.classList.remove('bg-[#2e3047]', 'text-[#f5f4ea]');
+
+    floor1Container.classList.remove('bg-[#f5f4ea]', 'text-[#2e3047]');
+    floor1Container.classList.add('bg-[#2e3047]', 'text-[#f5f4ea]');
+  }
+}
+
+// Menutup Gallery saat klik di luar area carousel
+carouselWrapper.addEventListener('click', (e) => {
+  if (e.target === carouselWrapper) {
+    carouselWrapper.classList.add('hidden');
+    setActiveButton(null); // nonaktifkan tombol
+  }
+});
+
+// Menutup Floorplan saat klik di luar gambar floorplan
+floorplanWrapper.addEventListener('click', (e) => {
+  if (e.target === floorplanWrapper) {
+    floorplanWrapper.classList.add('hidden');
+    floorplanlvl.classList.add('hidden');
+    setActiveButton(null);
+  }
+});
+
+// Fungsi untuk masuk ke fullscreen
+function openFullscreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.webkitRequestFullscreen) { // Safari
+    element.webkitRequestFullscreen();
+  } else if (element.msRequestFullscreen) { // IE11
+    element.msRequestFullscreen();
+  }
+}
+
+// Event listener pada carousel
+carouselImage.addEventListener('click', () => {
+  openFullscreen(carouselImage);
+});
+
+// Event listener pada floorplan
+floorplan.addEventListener('click', () => {
+  openFullscreen(floorplan);
+});
