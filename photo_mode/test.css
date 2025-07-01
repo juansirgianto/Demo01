@@ -78,6 +78,11 @@ html, body {
       /* fill: rgba(255, 255, 0, 0.2); */
       cursor: pointer;
     }
+    #cluster-D path:hover {
+      fill: rgba(0, 0, 0, 0.4);
+      /* fill: rgba(255, 255, 0, 0.2); */
+      cursor: pointer;
+    }
 
     .cluster-label {
     fill: white;

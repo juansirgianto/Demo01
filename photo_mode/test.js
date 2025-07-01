@@ -294,3 +294,45 @@ function adjustLabelDPosition() {
 
 window.addEventListener("resize", adjustLabelDPosition);
 window.addEventListener("DOMContentLoaded", adjustLabelDPosition);
+
+const clusters = ['A', 'B', 'C', 'D']; // Tambahkan 'C', 'D' jika ada
+
+// Event listener untuk setiap cluster unit
+clusters.forEach(unit => {
+  const clusterEl = document.getElementById(`cluster-${unit}`);
+  const descToShow = document.getElementById(`homedescription${unit}`);
+
+  if (clusterEl && descToShow) {
+    clusterEl.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation(); // Penting: mencegah event bubbling ke document
+
+      // Sembunyikan semua deskripsi
+      clusters.forEach(u => {
+        const desc = document.getElementById(`homedescription${u}`);
+        if (desc) desc.classList.add('hidden');
+      });
+
+      // Tampilkan deskripsi unit yang diklik
+      descToShow.classList.remove('hidden');
+    });
+  }
+});
+
+// Mencegah klik dalam deskripsi menutupnya
+clusters.forEach(unit => {
+  const desc = document.getElementById(`homedescription${unit}`);
+  if (desc) {
+    desc.addEventListener('click', function (e) {
+      e.stopPropagation(); // Jangan trigger penutupan global
+    });
+  }
+});
+
+// Klik di mana pun pada dokumen untuk menyembunyikan semua deskripsi
+document.addEventListener('click', function () {
+  clusters.forEach(unit => {
+    const desc = document.getElementById(`homedescription${unit}`);
+    if (desc) desc.classList.add('hidden');
+  });
+});

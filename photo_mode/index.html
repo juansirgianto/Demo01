@@ -29,7 +29,6 @@
      width="100%" height="100%">
      <image id="bgImage" href="./1424CC_CanH_AERIAL_REV 4 - Photo.jpg"
          width="2000" height="1250" />
-      <a href="/Demo01/unit_a/">
         <g id="cluster-A" class="hoverable">
           <path id="clusterPath" d="M 749 628 L 676 593, 676 525,671 522,686 503,740 463, 782 480,844 537, 838 541, 853 578, 852 613, 749 628"
              stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
@@ -44,24 +43,20 @@
             Price: 200,000 $
           </text>
         </g>
-      </a>
-      <a href="/Demo01/unit_b/">
-    <g id="cluster-B" class="hoverable">
-      <path id="clusterPath2" class="path2" d="M 603 562 L 599 504, 595 502, 665 436, 723 476, 686 501, 672 521, 676 528, 676 564, 603 562"
-       stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
-       <rect id="label-rectB" x="600" y="375" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
-       <text id="label-unitB" x="660" y="395" class="cluster-label">
-        Unit B
-      </text>
-       <text id="label-statusB" x="660" y="415" class="cluster-label-status">
-        Status: Available
-      </text>
-       <text id="label-priceB" x="660" y="435" class="cluster-label-price">
-        Price: 200,000 $
-      </text>
-    </g>
-    </a>
-      <a href="/Demo01/unit_c/">
+        <g id="cluster-B" class="hoverable">
+          <path id="clusterPath2" class="path2" d="M 603 562 L 599 504, 595 502, 665 436, 723 476, 686 501, 672 521, 676 528, 676 564, 603 562"
+          stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
+          <rect id="label-rectB" x="600" y="375" width="120" height="70" fill="#2e3047" rx="6" ry="6" />
+          <text id="label-unitB" x="660" y="395" class="cluster-label">
+            Unit B
+          </text>
+          <text id="label-statusB" x="660" y="415" class="cluster-label-status">
+            Status: Available
+          </text>
+          <text id="label-priceB" x="660" y="435" class="cluster-label-price">
+            Price: 200,000 $
+          </text>
+        </g>
     <g id="cluster-C" class="hoverable">
       <path id="clusterPath3" class="path2" d="M 1460 925 L 1280 876, 1284 757, 1277 754, 1326 722, 1327 669, 1341 664, 1366 669, 1363 699, 1375 692, 1501 637, 1588 730, 
       1580 738, 1573 840, 1460 925"
@@ -77,10 +72,8 @@
         Price: 200,000 $
       </text>
     </g>
-    </a>
-      <a href="/Demo01/unit_d/">
       <!-- <a href="/Luma/houses/house/1/"> -->
-    <g id="cluster-B" class="hoverable">
+    <g id="cluster-D" class="hoverable">
       <path id="clusterPath4" class="path2" d="M 968 716 L 883 690, 883 650, 908 614, 907 577, 901 574, 914 552, 977 507, 1048 517, 1112 561, 1141 601, 1135 605, 1134 655, 
       1065 675, 1065 687, 968 716"
        stroke="none" stroke-width="1" fill="rgba(0,0,0,0.01)" />
@@ -95,7 +88,6 @@
         Price: 200,000 $
       </text>
     </g>
-    </a>
     <!-- <g id="cluster-A" class="hoverable">
       <path class="path2" d="M 1359 727 C 1359 727, 1365 734, 1386 742 C 1386 742, 1455 752, 1536 744 C 1536 744, 1565 668 ,1536 606" stroke="red" stroke-width="1" fill="transparent" />
     </g> -->
@@ -106,6 +98,122 @@
     <div id="xLine" class="axis-line"></div>
     <div id="yLine" class="axis-line"></div> -->
 
+    <!-- Unit A -->
+    <div id="homedescriptionA" class="description-box hidden">
+      <div class="flex justify-between">
+        <h1 class="text-l m-[15px] font-bold" >Unit A</h1>
+        <h1 class="text-l m-[15px] font-bold" >3Bed 2F</h1>
+      </div>
+      <div class="mx-[15px] text-sm mb-[12px]">
+        <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis, repudiandae. Porro officiis magnam incidunt illo amet quo vitae quasi quisquam nihil excepturi velit quos, reprehenderit dolorum id sunt dolorem. Aliquam!</span>
+      </div>
+      <div class="mx-[15px] text-2xl font-bold mb-[12px] flex justify-between">
+        <span class="text-red-500">Sold</span>
+        <span class="text-green-500">200,000 $</span>
+      </div>
+      <a href="/Demo01/unit_a/">
+      <div class="flex justify-between w-full">
+        <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center" id="floorPlan">
+          <i data-lucide="eye" class="size-5 my-auto"></i>
+          <span>Details</span>
+        </button>
+      </div>
+      </a>
+      <div class="flex justify-between">
+        <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center">
+          <i data-lucide="user" class="size-5 my-auto"></i>
+          <span>Contact Info</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Unit B -->
+    <div id="homedescriptionB" class="description-box hidden">
+      <div class="flex justify-between">
+        <h1 class="text-l m-[15px] font-bold" >Unit B</h1>
+        <h1 class="text-l m-[15px] font-bold" >3Bed 2F</h1>
+      </div>
+      <div class="mx-[15px] text-sm mb-[12px]">
+        <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis, repudiandae. Porro officiis magnam incidunt illo amet quo vitae quasi quisquam nihil excepturi velit quos, reprehenderit dolorum id sunt dolorem. Aliquam!</span>
+      </div>
+      <div class="mx-[15px] text-2xl font-bold mb-[12px] flex justify-between">
+        <span class="text-blue-500">Available</span>
+        <span class="text-green-500">200,000 $</span>
+      </div>
+      <a href="/Demo01/unit_b/">
+      <div class="flex justify-between w-full">
+        <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center" id="floorPlan">
+          <i data-lucide="eye" class="size-5 my-auto"></i>
+          <span>Details</span>
+        </button>
+      </div>
+      </a>
+      <div class="flex justify-between">
+        <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center">
+          <i data-lucide="user" class="size-5 my-auto"></i>
+          <span>Contact Info</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Unit C -->
+     <div id="homedescriptionC" class="description-box hidden">
+      <div class="flex justify-between">
+        <h1 class="text-l m-[15px] font-bold" >Unit C</h1>
+        <h1 class="text-l m-[15px] font-bold" >3Bed 2F</h1>
+      </div>
+      <div class="mx-[15px] text-sm mb-[12px]">
+        <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis, repudiandae. Porro officiis magnam incidunt illo amet quo vitae quasi quisquam nihil excepturi velit quos, reprehenderit dolorum id sunt dolorem. Aliquam!</span>
+      </div>
+      <div class="mx-[15px] text-2xl font-bold mb-[12px] flex justify-between">
+        <span class="text-yellow-500">Booked</span>
+        <span class="text-green-500">200,000 $</span>
+      </div>
+      <a href="/Demo01/unit_c/">
+      <div class="flex justify-between w-full">
+        <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center" id="floorPlan">
+          <i data-lucide="eye" class="size-5 my-auto"></i>
+          <span>Details</span>
+        </button>
+      </div>
+      </a>
+      <div class="flex justify-between">
+        <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center">
+          <i data-lucide="user" class="size-5 my-auto"></i>
+          <span>Contact Info</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Unit D -->
+     <div id="homedescriptionD" class="description-box hidden">
+      <div class="flex justify-between">
+        <h1 class="text-l m-[15px] font-bold" >Unit D</h1>
+        <h1 class="text-l m-[15px] font-bold" >3Bed 2F</h1>
+      </div>
+      <div class="mx-[15px] text-sm mb-[12px]">
+        <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis, repudiandae. Porro officiis magnam incidunt illo amet quo vitae quasi quisquam nihil excepturi velit quos, reprehenderit dolorum id sunt dolorem. Aliquam!</span>
+      </div>
+      <div class="mx-[15px] text-2xl font-bold mb-[12px] flex justify-between">
+        <span class="text-blue-500">Available</span>
+        <span class="text-green-500">200,000 $</span>
+      </div>
+      <a href="/Demo01/unit_d/">
+      <div class="flex justify-between w-full">
+        <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center" id="floorPlan">
+          <i data-lucide="eye" class="size-5 my-auto"></i>
+          <span>Details</span>
+        </button>
+      </div>
+      </a>
+      <div class="flex justify-between">
+        <button class="gallery mx-[15px] mb-[12px] flex gap-2 text-align-center">
+          <i data-lucide="user" class="size-5 my-auto"></i>
+          <span>Contact Info</span>
+        </button>
+      </div>
+    </div>
+
   </div>
 
 
@@ -113,6 +221,6 @@
   <script>
     lucide.createIcons();
   </script>
-  <script type="module" src="./js/test.js"></script>
+  <script type="module" src="./test.js"></script>
 </body>
 </html>
