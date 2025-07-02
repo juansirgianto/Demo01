@@ -262,7 +262,7 @@ function adjustLabelDPosition() {
     priceD.setAttribute("x", "300");
     priceD.setAttribute("y", "160");
 
-  } else if (width <= 1024) {
+  } else if (width <= 964) {
     // Tablet
     rectD.setAttribute("x", "458");
     rectD.setAttribute("y", "388");

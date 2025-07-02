@@ -150,3 +150,11 @@ html, body {
   .hoverable:hover text {
     opacity: 1;
   }
+
+  .desc-image{
+  padding: 5px;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 25px;
+}

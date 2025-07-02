@@ -6,6 +6,8 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const thumbnails = document.querySelectorAll(".thumbnail");
 
+let isClosingByClickOutside = false;
+
 function updateCarousel() {
   carouselImage.src = images[index];
 
@@ -86,6 +88,10 @@ const scrollContainer = document.getElementById("thumbnailScroll");
     floorplanlvl.classList.add('hidden');
     floorplanWrapper.classList.add('hidden');
     setActiveButton('gallery');
+
+    if (window.innerWidth <= 964) {
+  document.getElementById('homedescription').classList.add('hidden');
+}
   });
 
   floorPlanBtn.addEventListener('click', () => {
@@ -99,6 +105,10 @@ const scrollContainer = document.getElementById("thumbnailScroll");
 
     floorplan.src = floorplanImages[1];
   setActiveFloor(1);
+
+  if (window.innerWidth <= 964) {
+  document.getElementById('homedescription').classList.add('hidden');
+}
   });
 
   // Set default active
@@ -110,8 +120,8 @@ const floor2Btn = document.getElementById('floor2');
 
 // Gambar floorplan sesuai lantai
 const floorplanImages = {
-  1: './1707CC_REY_UNIT A3_REV5.png',  // default image
-  2: './1937_CC_REY_UNIT A2_REV 1.png'          // ganti ini sesuai file kamu
+  1: '../unit_a/1707CC_REY_UNIT A3_REV5.png',  // default image
+  2: '../unit_a/1937_CC_REY_UNIT A2_REV 1.png'          // ganti ini sesuai file kamu
 };
 
 // Event saat tombol 1 ditekan
@@ -146,11 +156,22 @@ function setActiveFloor(floor) {
 
 // Menutup Gallery saat klik di luar area carousel
 carouselWrapper.addEventListener('click', (e) => {
-  if (e.target === carouselWrapper) {
+  // Deteksi hanya jika klik langsung ke background luar
+  if (e.target === e.currentTarget) {
+    isClosingByClickOutside = true;
     carouselWrapper.classList.add('hidden');
-    setActiveButton(null); // nonaktifkan tombol
+    setActiveButton(null);
+
+    // Tampilkan kembali deskripsi hanya jika benar klik luar
+    if (window.innerWidth <= 964 && isClosingByClickOutside) {
+      document.getElementById('homedescription').classList.remove('hidden');
+    }
+
+    // Reset flag
+    isClosingByClickOutside = false;
   }
 });
+
 
 // Menutup Floorplan saat klik di luar gambar floorplan
 floorplanWrapper.addEventListener('click', (e) => {
@@ -159,6 +180,9 @@ floorplanWrapper.addEventListener('click', (e) => {
     floorplanlvl.classList.add('hidden');
     setActiveButton(null);
   }
+  if (window.innerWidth <= 964) {
+      document.getElementById('homedescription').classList.remove('hidden');
+    }
 });
 
 // Fungsi untuk masuk ke fullscreen

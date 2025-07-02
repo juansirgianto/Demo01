@@ -96,9 +96,8 @@ svg {
       display: none;
     }
 
-  @media screen and (min-width: 769px) and (max-width: 1024px) {
-    .description-box {
-    /* position: absolute; */
+  @media screen and (min-width: 767px) and (max-width: 964px) {
+    /* .description-box {
     top: 60px;
     left: 20px;
     color: var(--third);
@@ -106,11 +105,26 @@ svg {
     max-width: 200px;
     z-index: 50;
     backdrop-filter: blur(5px);
-  }
+  } */
   .price{
     font-size: large;
   }
   .breadcrumb a{
     font-size: small;
+  }
+  #carouselImage{
+    width: 400px;
+  }
+  #floorplanImage{
+    width: 500px;
+  }
+  #carouselWrap{
+    width: 500px;
+    /* background-color: red; */
+  }
+  #floorPlanlvl{
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   }
