@@ -27,7 +27,7 @@ const pin0 = createPin(
   'assets/pin1.svg',
   'Unit A',
   'Sold',
-  '200,000 $'
+  '1,325,000 $'
 );
 
 const pin1 = createPin(
@@ -35,7 +35,7 @@ const pin1 = createPin(
   'assets/pin2.svg',
   'Unit B',
   'Available',
-  '200,000 $'
+  '985,000 $'
 );
 
 const pin2 = createPin(
@@ -43,7 +43,7 @@ const pin2 = createPin(
   'assets/pin3.svg',
   'Unit C',
   'Booked',
-  '200,000 $'
+  '695,000 $'
 );
 
 const pin3 = createPin(
@@ -51,7 +51,7 @@ const pin3 = createPin(
   'assets/pin2.svg',
   'Unit D',
   'Available',
-  '200,000 $'
+  '2,200,000 $'
 );
 
   const pins = [pin0, pin1, pin2, pin3];
