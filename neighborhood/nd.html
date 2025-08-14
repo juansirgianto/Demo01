@@ -960,7 +960,7 @@
             </div>
             <div class="info">{{type}}</div>
           </div>
-          <button class="photo" style="background-image:url({{photos.0.urlSmall}})" aria-label="show photo in viewer"></button>
+          <button class="photo" style="background-image:url('{{photos.0.urlSmall}}')" aria-label="show photo in viewer"></button>
         </li>
       {{/each}}
     </script>
@@ -1052,7 +1052,7 @@
       {{#if photos}}
         <div class="photos section">
           {{#each photos}}
-            <button class="photo" style="background-image:url({{urlSmall}})" aria-label="show photo in viewer"></button>
+            <button class="photo" style="background-image:url('{{urlSmall}}')" aria-label="show photo in viewer"></button>
           {{/each}}
         </div>
       {{/if}}
@@ -1062,7 +1062,7 @@
           {{#each reviews}}
             <div class="review">
               <a class="reviewer-identity" href="{{author_url}}" target="_blank">
-                <div class="reviewer-avatar" style="background-image:url({{profile_photo_url}})"></div>
+                <div class="reviewer-avatar" style="background-image:url('{{profile_photo_url}}')"></div>
                 <div class="reviewer-name">{{author_name}}</div>
               </a>
               <div class="rating info">
