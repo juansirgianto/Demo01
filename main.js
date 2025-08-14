@@ -4,6 +4,7 @@ import { LumaSplatsThree, LumaSplatsSemantics } from './libs/luma-web.module.js'
 import { POIs } from './js/pois.js';
 import { createPins } from './js/cubes.js';
 import { setupGallery } from './js/gallery.js';
+import { closeMapModal, openNeighborhoodDiscovery } from './maps.js';
 
 // 🎯 Setup dasar
 const canvas = document.getElementById('webgl-canvas');
@@ -566,6 +567,7 @@ window.addEventListener('click', (e) => {
 startOrbitAfterDelay(); // tanpa argumen = orbit ke fokus kamera saat ini
 });
 
+
 window.addEventListener('wheel', () => {
   orbiting = false;
   zooming = false;
@@ -577,4 +579,14 @@ window.addEventListener('wheel', () => {
 
 canvas.addEventListener('mouseleave', () => {
   tooltip.style.display = 'none';
+});
+
+// gmaps
+document.getElementById("openMap").addEventListener("click", () => {
+  openNeighborhoodDiscovery('/neighborhood/nd.html'); // sesuaikan path
+});
+
+document.getElementById("closeMap").addEventListener("click", closeMapModal);
+document.getElementById("mapModal").addEventListener("click", (e) => {
+  if (e.target.id === "mapModal") closeMapModal();
 });

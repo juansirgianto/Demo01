@@ -38,6 +38,19 @@
   </a>
 </div>
 
+<button id="openMap" class="absolute bg-[#2e3047] px-3 py-2 font-medium text-white rounded-full right-[20px] bottom-2">
+  Open location
+</button>
+
+<!-- Modal Map -->
+<div id="mapModal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 hidden">
+  <div id="mapContent"
+       class="relative w-[80vw] h-[80vh] transform translate-x-[100vw] opacity-0 transition-all duration-500 ease-out bg-white rounded-xl overflow-hidden">
+    <button id="closeMap" class="absolute top-2 right-3 text-white text-2xl font-bold z-10">&times;</button>
+    <iframe id="ndFrame" class="w-full h-full border-0" src="about:blank" loading="lazy"></iframe>
+  </div>
+</div>
+
 <!-- Home button -->
 <button id="homePOIButton" class="poi-html-button">
   <i data-lucide="home" class="iconpoi my-auto size-7 justify-between"></i>
@@ -281,13 +294,13 @@
 <!-- Filter -->
  <div class="filter flex gap-2" id="filterbar">
   <h2 class="mx-[12px] text-sm">Filters:</h2>
-  <button id="filterAvailable" class="text-white bg-blue-500 border-blue-500 border-[1px] hover:border-[1px] hover:text-blue-500 hover:bg-white">
+  <button id="filterAvailable" class="text-white bg-[#0000cc] border-[#0000cc] border-[1px] hover:border-[1px] hover:text-blue-500 hover:bg-white">
     Available
   </button>
-  <button id="filterSold" class="text-white bg-red-500 border-red-500 border-[1px] hover:border-[1px] hover:text-red-500 hover:bg-white">
+  <button id="filterSold" class="text-white bg-[#cc0000] border-[#cc0000] border-[1px] hover:border-[1px] hover:text-red-500 hover:bg-white">
     Sold
   </button>
-  <button id="filterBooked" class="text-white bg-yellow-500 border-yellow-500 border-[1px] hover:border-[1px] hover:bg-white hover:text-yellow-500">
+  <button id="filterBooked" class="text-white bg-[#cccc00] border-[#cccc00] border-[1px] hover:border-[1px] hover:bg-white hover:text-yellow-500">
     Booked
   </button>
  </div>
