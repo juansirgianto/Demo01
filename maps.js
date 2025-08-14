@@ -29,7 +29,7 @@ export function loadGoogleMapsOnce() {
 
 // Buka modal + tampilkan peta
 // maps.js
-export function openNeighborhoodDiscovery(path = '/neighborhood/nd.html') {
+export function openNeighborhoodDiscovery(path = '/Demo01/neighborhood/nd.html') {
   const modal = document.getElementById('mapModal');
   const content = document.getElementById('mapContent');
   const frame = document.getElementById('ndFrame');
