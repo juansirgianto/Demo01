@@ -20,7 +20,7 @@ export function loadGoogleMapsOnce() {
     gmapReadyResolver = resolve;
     const s = document.createElement("script");
     s.id = "gmaps-script";
-    s.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD9GBnHqF_dKV_o4aLBVKBNhRCpLS-Nw80&callback=onGMapReady`;
+    s.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD9GBnHqF_dKV_o4aLBVKBNhRCpLS-Nw80&callback=onGMapReady&language=en`;
     s.async = true;
     s.defer = true;
     document.head.appendChild(s);
