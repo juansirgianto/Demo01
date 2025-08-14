@@ -304,7 +304,7 @@ body {
   font-weight: 500;
 }
 
-@media screen and (min-width: 478px) and (max-width: 964px) {
+@media screen and (min-width: 370px) and (max-width: 964px) {
   #navbar {
     right: 50%;
     transform: translateX(50%);
@@ -351,5 +351,8 @@ body {
 }
 .tooltip{
   position: relative;
+}
+.logo{
+  display: none;
 }
 }

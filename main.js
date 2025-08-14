@@ -7,18 +7,18 @@ import { setupGallery } from './js/gallery.js';
 import { closeMapModal, openNeighborhoodDiscovery } from './maps.js';
 
 // 🎯 Setup dasar
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(1.11, 1.20, 0.72);
 const canvas = document.getElementById('webgl-canvas');
 const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio, 2);
 
-const scene = new THREE.Scene();
 const { pins, pinPOIs } = createPins(scene);
 const hiddenStatuses = new Set(); 
 scene.background = new THREE.Color(0xf5f5f5); 
 // scene.background = new THREE.Color(0xffffff); 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(1.11, 1.20, 0.72);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
