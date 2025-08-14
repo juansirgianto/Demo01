@@ -355,4 +355,8 @@ body {
 .logo{
   display: none;
 }
+#openMap{
+  left: 50%;
+  transform: translateX(-50%);
+}
 }
