@@ -583,7 +583,7 @@ canvas.addEventListener('mouseleave', () => {
 
 // gmaps
 document.getElementById("openMap").addEventListener("click", () => {
-  openNeighborhoodDiscovery('/neighborhood/nd.html'); // sesuaikan path
+  openNeighborhoodDiscovery('/Demo01/neighborhood/nd.html'); // sesuaikan path
 });
 
 document.getElementById("closeMap").addEventListener("click", closeMapModal);
