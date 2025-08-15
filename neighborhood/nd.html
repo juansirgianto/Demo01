@@ -353,6 +353,18 @@
         font-size: 0.8em;
         margin-top: 0.3em;
       }
+
+      .neighborhood-discovery .filters {
+        display:flex; flex-wrap: wrap; gap:0.6em; padding:0.6em 0.5em 0.2em;
+        font-size:0.9em; align-items:center;
+      }
+      .neighborhood-discovery .filters label {
+        background:#f1f3f4; border-radius:1em; padding:0.2em 0.7em;
+      }
+      .neighborhood-discovery .filters .clear-filters {
+        margin-left:auto; font-size:0.85em; color:#4285f4;
+      }
+
     </style>
     <script>
       'use strict';
@@ -427,7 +439,7 @@
       }
 
       /** Number of POIs to show on widget load. */
-      const ND_NUM_PLACES_INITIAL = 7;
+      const ND_NUM_PLACES_INITIAL = 15;
 
       /** Number of additional POIs to show when 'Show More' button is clicked. */
       const ND_NUM_PLACES_SHOW_MORE = 10;
@@ -454,6 +466,7 @@
         'electronics_store': 'local_mall',
         'home_goods_store': 'local_mall',
         'primary_school': 'school',
+        'airport': 'local_airport',
       };
 
       /**
@@ -612,6 +625,9 @@
                 })).slice(0, ND_NUM_PLACE_PHOTOS_MAX);
               }
               if (result.types) {
+                // simpan semua types mentah dari Google untuk filtering
+                place.rawTypes = result.types.slice(); // <—— TAMBAH INI
+
                 place.type = formatPlaceType(result.types[0]);
                 place.icon = ND_MARKER_ICONS_BY_TYPE['_default'];
                 for (let type of result.types) {
@@ -673,12 +689,68 @@
           const placesPanelEl = widgetEl.querySelector('.places-panel');
           const detailsPanelEl = widgetEl.querySelector('.details-panel');
           const placeResultsEl = widgetEl.querySelector('.place-results-list');
+          const placeIdToListItem = new Map();
+          widget.activeFilters = new Set();
+
+          function matchesFilter(place) {
+            // jika tidak ada filter terpilih → tampilkan semuanya
+            if (!widget.activeFilters || widget.activeFilters.size === 0) return true;
+            if (!place.rawTypes || place.rawTypes.length === 0) return false;
+
+            // cocok kalau ada irisan antara filter yg dipilih dan types dari tempat tsb
+            for (const f of widget.activeFilters) {
+              if (place.rawTypes.includes(f)) return true;
+            }
+            return false;
+          }
+
+          function applyFilters() {
+            // loop semua place yang sudah dirender
+            for (const place of widget.places) {
+              const li = placeIdToListItem.get(place.placeId);
+              if (!li) continue; // belum dirender (belum masuk batch "Show More")
+              const visible = matchesFilter(place);
+              li.style.display = visible ? '' : 'none';
+
+              // sembunyikan/tampilkan marker
+              if (place.marker) {
+                // lebih efisien daripada setMap(null)
+                place.marker.setVisible(visible);
+              }
+            }
+
+            // jika ada filter aktif, buat tombol "Show More" tidak sticky (opsional)
+            const showMoreButtonEl = widgetEl.querySelector('.show-more-button');
+            if (showMoreButtonEl) {
+              showMoreButtonEl.classList.toggle('sticky', widget.activeFilters.size === 0);
+            }
+          }
+
           const showMoreButtonEl = widgetEl.querySelector('.show-more-button');
           const photoModalEl = widgetEl.querySelector('.photo-modal');
           const detailsTemplate = Handlebars.compile(
               document.getElementById('nd-place-details-tmpl').innerHTML);
           const resultsTemplate = Handlebars.compile(
               document.getElementById('nd-place-results-tmpl').innerHTML);
+          // hookup filter checkbox
+          const filterInputs = widgetEl.querySelectorAll('.nd-filter');
+          filterInputs.forEach((inp) => {
+            inp.addEventListener('change', () => {
+              if (inp.checked) widget.activeFilters.add(inp.value);
+              else widget.activeFilters.delete(inp.value);
+              applyFilters();
+            });
+          });
+
+          // tombol clear
+          const clearBtn = widgetEl.querySelector('.clear-filters');
+          if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+              widget.activeFilters.clear();
+              filterInputs.forEach(i => i.checked = false);
+              applyFilters();
+            });
+          }
 
           // Show specified POI photo in a modal.
           const showPhotoModal = function(photo, placeName) {
@@ -754,24 +826,33 @@
           const renderPlaceResults = function(places, startIndex) {
             placeResultsEl.insertAdjacentHTML('beforeend', resultsTemplate({places: places}));
             placeResultsEl.querySelectorAll('.place-result').forEach((resultEl, i) => {
-              const place = places[i - startIndex];
-              if (!place) return;
-              // Clicking anywhere on the item selects the place.
-              // Additionally, create a button element to make this behavior
-              // accessible under tab navigation.
-              resultEl.addEventListener('click', () => {
-                widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
-              });
-              resultEl.querySelector('.name').addEventListener('click', (e) => {
-                widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
-                e.stopPropagation();
-              });
-              resultEl.querySelector('.photo').addEventListener('click', (e) => {
-                showPhotoModal(place.photos[0], place.name);
-                e.stopPropagation();
-              });
-              widget.addPlaceMarker(place);
+            const place = places[i - startIndex];
+            if (!place) return;
+
+            // simpan mapping placeId -> <li>
+            placeIdToListItem.set(place.placeId, resultEl);
+
+            // klik utk buka detail
+            resultEl.addEventListener('click', () => {
+              widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
             });
+            resultEl.querySelector('.name').addEventListener('click', (e) => {
+              widget.selectPlaceById(place.placeId, /* panToMarker= */ true);
+              e.stopPropagation();
+            });
+            resultEl.querySelector('.photo').addEventListener('click', (e) => {
+              showPhotoModal(place.photos[0], place.name);
+              e.stopPropagation();
+            });
+
+            widget.addPlaceMarker(place);
+
+            // terapkan filter ke item yang baru saja dirender
+            const visible = matchesFilter(place);
+            resultEl.style.display = visible ? '' : 'none';
+            if (place.marker) place.marker.setVisible(visible);
+          });
+          applyFilters();
           };
 
           // Index of next Place object to show in the POI list.
@@ -932,7 +1013,7 @@
           {"placeId": "ChIJJatalpjX3kcRNxdEe8o0cRs"}
         ],
         "centerMarker": {"icon":"circle"},
-        "mapRadius": 5000,
+        "mapRadius": 10000,
         "mapOptions": {"center":{"lat":51.192124,"lng":0.729676},"fullscreenControl":true,"mapTypeControl":true,"streetViewControl":true,"zoom":16,"zoomControl":true,"maxZoom":20,"mapId":""},
         "mapsApiKey": "AIzaSyD9GBnHqF_dKV_o4aLBVKBNhRCpLS-Nw80"
       };
@@ -1097,10 +1178,18 @@
     <div class="neighborhood-discovery">
       <div class="places-panel panel no-scroll">
         <header class="navbar">
+          <div class="filters">
+            <label><input type="checkbox" class="nd-filter" value="cafe"> Cafe</label>
+            <label><input type="checkbox" class="nd-filter" value="restaurant"> Restaurant</label>
+            <label><input type="checkbox" class="nd-filter" value="bar"> Bar</label>
+            <label><input type="checkbox" class="nd-filter" value="park"> Park</label>
+            <label><input type="checkbox" class="nd-filter" value="airport"> Airport</label>
+            <button class="clear-filters" type="button">Clear</button>
+          </div>
           <div class="search-input">
             <input class="place-search-input" placeholder="Search nearby places">
             <button class="place-search-button">
-              <img src="https://fonts.gstatic.com/s/i/googlematerialicons/search/v11/24px.svg" alt="search"/>
+              <!-- <img src="https://fonts.gstatic.com/s/i/googlematerialicons/search/v11/24px.svg" alt="search"/> -->
             </button>
           </div>
         </header>
