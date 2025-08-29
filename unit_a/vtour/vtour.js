@@ -143,7 +143,7 @@ const scenes = {
     ],
   },
   studyroom: {
-    panorama: './study.jpg',
+    panorama: study,
     markers: [
       {
         id: 'back-to-entrance',
@@ -153,7 +153,7 @@ const scenes = {
     ],
   },
   kitchen: {
-    panorama: './kitchen.jpg',
+    panorama: kitchen,
     markers: [
       {
         id: 'back-to-entrance',
@@ -173,7 +173,7 @@ const scenes = {
     ],
   },
   kitchenpatio: {
-    panorama: './kitchenpatio.jpg',
+    panorama: kitchenpatio,
     markers: [
       {
         id: 'back-to-entrance',
@@ -193,7 +193,7 @@ const scenes = {
     ],
   },
   patio: {
-    panorama: './patio.jpg',
+    panorama: patio,
     markers: [
       {
         id: 'to-kitchen-patio',
@@ -203,7 +203,7 @@ const scenes = {
     ],
   },
   lounge: {
-    panorama: './lounge.jpg',
+    panorama: lounge,
     markers: [
       {
         id: 'to-kitchen',
@@ -213,7 +213,7 @@ const scenes = {
     ],
   },
   bedroom: {
-    panorama: './bedroom.jpg',
+    panorama: bedroom,
     markers: [
       {
         id: 'back-to-entrance',
@@ -233,7 +233,7 @@ const scenes = {
     ],
   },
   balcony: {
-    panorama: './balcony.jpg',
+    panorama: balcony,
     markers: [
       {
         id: 'to-bedroom',
@@ -243,7 +243,7 @@ const scenes = {
     ],
   },
   bathroom: {
-    panorama: './bathroom.jpg',
+    panorama: bathroom,
     markers: [
       {
         id: 'to-bedroom',
