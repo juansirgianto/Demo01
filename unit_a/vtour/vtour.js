@@ -84,15 +84,26 @@ button:hover + .tooltip {
 
 customElements.define('custom-marker', CustomMarkerElement);
 
+const entrance     = new URL('./ENTRANCE_.jpg',    import.meta.url).href;
+const study        = new URL('./study.jpg',        import.meta.url).href;
+const kitchen      = new URL('./kitchen.jpg',      import.meta.url).href;
+const kitchenpatio = new URL('./kitchenpatio.jpg', import.meta.url).href;
+const patio        = new URL('./patio.jpg',        import.meta.url).href;
+const lounge       = new URL('./lounge.jpg',       import.meta.url).href;
+const bedroom      = new URL('./bedroom.jpg',      import.meta.url).href;
+const balcony      = new URL('./balcony.jpg',      import.meta.url).href;
+const bathroom     = new URL('./bathroom.jpg',     import.meta.url).href;
+
 // 🎥 Inisialisasi viewer
-const viewer = new Viewer({
-  container: document.getElementById('viewer'),
-  panorama: 'ENTRANCE_.jpg',
-  defaultZoomLvl: 0,
-  plugins: [
-    [MarkersPlugin]
-  ],
-});
+// const viewer = new Viewer({
+//   container: document.getElementById('viewer'),
+//   panorama: './ENTRANCE_.jpg',
+//   defaultZoomLvl: 0,
+//   plugins: [
+//     [MarkersPlugin]
+//   ],
+// });
+const viewer = new Viewer({ container: document.getElementById('viewer'), defaultZoomLvl: 0, plugins: [[MarkersPlugin]] });
 
 const markers = viewer.getPlugin(MarkersPlugin);
 
@@ -112,7 +123,7 @@ const markerElements = {
 // 🧭 Daftar scene
 const scenes = {
   entrance: {
-    panorama: 'ENTRANCE_.jpg',
+    panorama: entrance,
     markers: [
       {
         id: 'to-study',
