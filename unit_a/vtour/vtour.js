@@ -87,7 +87,7 @@ customElements.define('custom-marker', CustomMarkerElement);
 // 🎥 Inisialisasi viewer
 const viewer = new Viewer({
   container: document.getElementById('viewer'),
-  panorama: './ENTRANCE_.jpg',
+  panorama: 'ENTRANCE_.jpg',
   defaultZoomLvl: 0,
   plugins: [
     [MarkersPlugin]
