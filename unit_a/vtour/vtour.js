@@ -112,7 +112,7 @@ const markerElements = {
 // 🧭 Daftar scene
 const scenes = {
   entrance: {
-    panorama: './ENTRANCE_.jpg',
+    panorama: 'ENTRANCE_.jpg',
     markers: [
       {
         id: 'to-study',
